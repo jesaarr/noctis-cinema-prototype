@@ -86,10 +86,8 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
         if (!videosError && videos) {
           setUserMovies(videos);
         } else {
-          // Eğer Supabase hataya düşerse App.tsx mantığı gibi local storage'dan oku
-          const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]');
-          const filtered = localSignals.filter((sig: any) => sig.director_id === userId);
-          setUserMovies(filtered);
+          // If videos cannot be retrieved, present an empty list (no local fallback)
+          setUserMovies([]);
         }
       } catch (e) {
         console.warn('Failed to fetch user profile safely', e);

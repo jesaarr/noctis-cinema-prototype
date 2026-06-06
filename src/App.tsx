@@ -43,38 +43,7 @@ const DEFAULT_MOVIES: Movie[] = [
   }
 ];
 
-const STORE_ITEMS: StoreItem[] = [
-  {
-    id: 's1',
-    title: 'NOIR KODAK 35MM',
-    category: 'LUTS',
-    price: 150,
-    description: 'Yapay zeka renderlarına Leica ve vintage sinema dokusu kazandıran, kontrastı yoğun, sarı-siyah ağırlıklı profesyonel renk LUT paketi.',
-    creator: 'Director',
-    rating: 4.9,
-    features: ['3 LUT Files (.cube)', 'Compatible with DaVinci / Premier', 'Optimized for Midjourney v6']
-  },
-  {
-    id: 's2',
-    title: 'HYPER-REAL SCIFI PROMPT BOOK',
-    category: 'PROMPTS',
-    price: 100,
-    description: 'Fotogerçekçi uzay, distopik mimari ve sinematik portre çekimleri için 50 adet özel formüle edilmiş Midjourney ve Stable Diffusion istemi.',
-    creator: 'Aurora',
-    rating: 5.0,
-    features: ['50 Master Prompts', 'Aspect Ratio Guides', 'Lighting Keywords Library']
-  },
-  {
-    id: 's3',
-    title: 'ANALOG COLD SWELLS',
-    category: 'AUDIO',
-    price: 200,
-    description: 'Analog synthesizer ünitelerinden kaydedilmiş, sinematik derinlik ve gerilim yaratan derin bas pedleri, drone sesleri ve retro-futuristik geçiş efektleri.',
-    creator: 'Core',
-    rating: 4.8,
-    features: ['24 High-Quality WAV Files', 'Royalty-Free License', 'Tempo & Key Labeled']
-  }
-];
+// Store items are loaded from Supabase `store_items` table at runtime
 
 // YouTube ID Ayıklayıcı
 const extractYouTubeId = (url: string): string => {
@@ -186,8 +155,7 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
         .single();
 
       if (error) {
-        const localCreator = localStorage.getItem(`creator_status_${session.user.id}`);
-        setIsCreator(localCreator === 'true');
+        setIsCreator(false);
       } else {
         setIsCreator(data?.is_creator ?? false);
       }
@@ -210,9 +178,7 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
       if (error) throw error;
       setMySignals(data || []);
     } catch (e) {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      const filtered = localSignals.filter((sig) => sig.director_id === session.user.id);
-      setMySignals(filtered);
+      setMySignals([]);
     }
   };
 
@@ -223,8 +189,6 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
         .from('profiles')
         .update({ is_creator: true })
         .eq('id', session.user.id);
-
-      localStorage.setItem(`creator_status_${session.user.id}`, 'true');
       setIsCreator(true);
     } catch (err) {
       setIsCreator(true);
@@ -262,14 +226,10 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
     };
 
     try {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      localSignals.unshift(newSignal);
-      localStorage.setItem('noctis_local_signals', JSON.stringify(localSignals));
-
+      const { error } = await supabase.from('movies').insert([newSignal]);
+      if (error) throw error;
       setMySignals(prev => [newSignal, ...prev]);
-      setStatusMessage('✓ Sinyal yerel sisteme başarıyla işlendi.');
-
-      await supabase.from('movies').insert([newSignal]);
+      setStatusMessage('✓ Sinyal merkezi veritabanına işlendi.');
 
       resetForm();
       setTimeout(() => {
@@ -696,6 +656,11 @@ export default function App() {
 
   // Filmler Havuzu
   const [movies, setMovies] = useState<Movie[]>(DEFAULT_MOVIES);
+  const [, setMoviesLoading] = useState(false);
+
+  // Store items (loaded from Supabase)
+  const [storeItems, setStoreItems] = useState<StoreItem[]>([]);
+  const [storeLoading, setStoreLoading] = useState(false);
 
   // Bildirim / Toast State
   const [toastMessage, setToastMessage] = useState('');
@@ -732,33 +697,43 @@ export default function App() {
   }, []);
 
   const refreshMoviesList = async () => {
+    setMoviesLoading(true);
     try {
       const { data, error } = await supabase
         .from('movies')
         .select('*')
         .order('created_at', { ascending: false });
-
-      let merged: Movie[] = [...DEFAULT_MOVIES];
-
       if (!error && data) {
-        merged = [...data, ...merged];
+        setMovies(data as Movie[]);
+      } else {
+        setMovies(DEFAULT_MOVIES);
       }
-
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      localSignals.forEach((local) => {
-        if (!merged.some(m => m.id === local.id)) {
-          merged.unshift(local);
-        }
-      });
-
-      setMovies(merged);
     } catch (e) {
       console.warn(e);
+      setMovies(DEFAULT_MOVIES);
+    } finally {
+      setMoviesLoading(false);
+    }
+  };
+
+  const refreshStoreItems = async () => {
+    if (!session) return;
+    setStoreLoading(true);
+    try {
+      const { data, error } = await supabase.from('store_items').select('*').order('created_at', { ascending: false });
+      if (!error && data) setStoreItems(data as StoreItem[]);
+      else setStoreItems([]);
+    } catch (e) {
+      console.warn('Failed to load store items', e);
+      setStoreItems([]);
+    } finally {
+      setStoreLoading(false);
     }
   };
 
   useEffect(() => {
     refreshMoviesList();
+    refreshStoreItems();
   }, [session]);
 
   // Video izleme tıklandığında geçmişe kaydetme protokolü
@@ -925,44 +900,50 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {STORE_ITEMS.map((item) => {
-                  const isPurchased = purchasedItems.includes(item.id);
-                  return (
-                    <div key={item.id} className="bg-noctis-card/60 border border-white/[0.05] p-6 rounded-[32px] hover:border-noctis-gold/20 transition-all duration-500 flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-start mb-4">
-                          <span className="text-[7px] bg-noctis-gold/10 border border-noctis-gold/20 text-noctis-gold px-2 py-1 rounded font-mono uppercase">{item.category}</span>
-                          <span className="text-xs font-mono text-noctis-muted">★ {item.rating.toFixed(1)}</span>
-                        </div>
-                        <h3 className="text-sm font-light text-noctis-platinum uppercase tracking-wider">{item.title}</h3>
-                        <p className="text-[11px] text-noctis-muted font-mono mt-1">Creator: @{item.creator.toLowerCase()}</p>
-                        <p className="text-xs text-noctis-muted font-light mt-3 leading-relaxed">{item.description}</p>
-                        
-                        <ul className="mt-5 space-y-1.5 border-t border-white/[0.05] pt-4">
-                          {item.features.map((f, i) => (
-                            <li key={i} className="text-[9px] text-noctis-muted font-mono flex items-center gap-2">
-                              <span className="text-noctis-gold">▪</span> {f}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="mt-8 pt-4 border-t border-white/[0.05] flex items-center justify-between">
+                {storeLoading ? (
+                  [1,2,3].map((i) => (
+                    <div key={i} className="bg-noctis-card/40 border border-white/[0.03] p-6 rounded-[32px] animate-pulse h-48" />
+                  ))
+                ) : (
+                  storeItems.map((item) => {
+                    const isPurchased = purchasedItems.includes(item.id);
+                    return (
+                      <div key={item.id} className="bg-noctis-card/60 border border-white/[0.05] p-6 rounded-[32px] hover:border-noctis-gold/20 transition-all duration-500 flex flex-col justify-between">
                         <div>
-                          <p className="text-[8px] text-noctis-muted font-mono uppercase">LİSANS BEDELİ</p>
-                          <p className="text-base font-light text-noctis-platinum font-mono">{item.price} NC</p>
+                          <div className="flex justify-between items-start mb-4">
+                            <span className="text-[7px] bg-noctis-gold/10 border border-noctis-gold/20 text-noctis-gold px-2 py-1 rounded font-mono uppercase">{(item as any).category}</span>
+                            <span className="text-xs font-mono text-noctis-muted">★ {((item as any).rating || 0).toFixed(1)}</span>
+                          </div>
+                          <h3 className="text-sm font-light text-noctis-platinum uppercase tracking-wider">{item.title}</h3>
+                          <p className="text-[11px] text-noctis-muted font-mono mt-1">Creator: @{((item as any).creator || '').toLowerCase()}</p>
+                          <p className="text-xs text-noctis-muted font-light mt-3 leading-relaxed">{item.description}</p>
+                          
+                          <ul className="mt-5 space-y-1.5 border-t border-white/[0.05] pt-4">
+                            {((item as any).features || []).map((f: string, i: number) => (
+                              <li key={i} className="text-[9px] text-noctis-muted font-mono flex items-center gap-2">
+                                <span className="text-noctis-gold">▪</span> {f}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <button
-                          onClick={() => handleBuyItem(item)}
-                          disabled={isPurchased}
-                          className={`px-5 py-2.5 rounded-xl font-mono text-[9px] tracking-wider uppercase transition-all duration-300 ${isPurchased ? 'bg-noctis-card border border-white/[0.03] text-noctis-muted cursor-default' : 'bg-transparent border border-noctis-gold/30 hover:border-noctis-gold text-noctis-gold'}`}
-                        >
-                          {isPurchased ? 'LİSANSLANDI' : 'LİSANS AL'}
-                        </button>
+
+                        <div className="mt-8 pt-4 border-t border-white/[0.05] flex items-center justify-between">
+                          <div>
+                            <p className="text-[8px] text-noctis-muted font-mono uppercase">LİSANS BEDELİ</p>
+                            <p className="text-base font-light text-noctis-platinum font-mono">{(item as any).price} NC</p>
+                          </div>
+                          <button
+                            onClick={() => handleBuyItem(item)}
+                            disabled={isPurchased}
+                            className={`px-5 py-2.5 rounded-xl font-mono text-[9px] tracking-wider uppercase transition-all duration-300 ${isPurchased ? 'bg-noctis-card border border-white/[0.03] text-noctis-muted cursor-default' : 'bg-transparent border border-noctis-gold/30 hover:border-noctis-gold text-noctis-gold'}`}
+                          >
+                            {isPurchased ? 'LİSANSLANDI' : 'LİSANS AL'}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
           ) : (

@@ -46,8 +46,7 @@ export default function CreatorStudio({ session, onSignalBroadcasted }: CreatorS
         .single();
 
       if (error) {
-        const localCreator = localStorage.getItem(`creator_status_${session.user.id}`);
-        setIsCreator(localCreator === 'true');
+        setIsCreator(false);
       } else {
         setIsCreator(data?.is_creator ?? false);
       }
@@ -70,9 +69,8 @@ export default function CreatorStudio({ session, onSignalBroadcasted }: CreatorS
       if (error) throw error;
       setMySignals(data || []);
     } catch (e) {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      const filtered = localSignals.filter((sig) => sig.director_id === session.user.id);
-      setMySignals(filtered);
+      // If Supabase fails, show empty list (no localStorage fallback)
+      setMySignals([]);
     }
   };
 
@@ -83,8 +81,6 @@ export default function CreatorStudio({ session, onSignalBroadcasted }: CreatorS
         .from('profiles')
         .update({ is_creator: true })
         .eq('id', session.user.id);
-
-      localStorage.setItem(`creator_status_${session.user.id}`, 'true');
       setIsCreator(true);
     } catch (err) {
       setIsCreator(true);
@@ -122,13 +118,10 @@ export default function CreatorStudio({ session, onSignalBroadcasted }: CreatorS
     };
 
     try {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      localSignals.unshift(newSignal);
-      localStorage.setItem('noctis_local_signals', JSON.stringify(localSignals));
+      const { error } = await supabase.from('movies').insert([newSignal]);
+      if (error) throw error;
       setMySignals(prev => [newSignal, ...prev]);
-      setStatusMessage('Success: Signal indexed into local database pipeline.');
-
-      await supabase.from('movies').insert([newSignal]);
+      setStatusMessage('Success: Signal indexed into central database.');
       resetForm();
 
       setTimeout(() => {
@@ -145,12 +138,8 @@ export default function CreatorStudio({ session, onSignalBroadcasted }: CreatorS
   const handleDeleteSignal = async (id: string) => {
     if (!window.confirm('Are you absolute sure you want to purge this data signal?')) return;
     try {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      const updated = localSignals.filter(sig => sig.id !== id);
-      localStorage.setItem('noctis_local_signals', JSON.stringify(updated));
-
-      setMySignals(prev => prev.filter(sig => sig.id !== id));
       await supabase.from('movies').delete().eq('id', id);
+      setMySignals(prev => prev.filter(sig => sig.id !== id));
       onSignalBroadcasted();
     } catch (err) {
       console.error(err);

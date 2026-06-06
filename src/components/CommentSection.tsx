@@ -33,8 +33,8 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
         const { data } = await supabase.from('comments').select('*').eq('video_id', videoId).order('created_at', { ascending: false });
         if (mounted && data) setComments(data);
       } catch (e) {
-        const local = JSON.parse(localStorage.getItem(`comments_${videoId}`) || '[]');
-        if (mounted) setComments(local);
+          // If comments fail to load, do not fall back to localStorage; show empty list
+          if (mounted) setComments([]);
       }
     };
     load();
@@ -50,11 +50,8 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
       setComments(prev => [payload, ...prev]);
       setText('');
     } catch (e) {
-      const local = JSON.parse(localStorage.getItem(`comments_${videoId}`) || '[]');
-      local.unshift(payload);
-      localStorage.setItem(`comments_${videoId}`, JSON.stringify(local));
-      setComments(local);
-      setText('');
+      // If posting fails, surface error quietly and keep input
+      console.warn('Comment post failed', e);
     } finally {
       setPosting(false);
     }
