@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import VideoMeta from './VideoMeta';
 import CommentSection from './CommentSection';
+import { supabase } from '../supabaseClient';
 
 interface VideoContainerProps { 
   movie: any
@@ -10,8 +12,19 @@ interface VideoContainerProps {
 }
 
 export default function VideoContainer({ movie, onClose, session, onViewProfile }: VideoContainerProps) {
+  // İzlenme sayısını artırmak için eklenen useEffect
+  useEffect(() => {
+    if (movie?.id) {
+      supabase.rpc('increment_movie_views', { movie_id: movie.id })
+        .then(({ error }) => {
+          if (error) console.error('İzlenme sayısı artırılamadı:', error);
+        });
+    }
+  }, [movie?.id]);
+
   // Esneklik: youtube_id, video_url, videoUrl veya youtube_url kullanabilir
   const vid = movie.youtube_id || movie.video_url || movie.videoUrl || movie.youtube_url || '';
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto animate-fade-in">
       <button 
