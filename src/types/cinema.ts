@@ -10,6 +10,7 @@ export interface Movie {
   // Yeni eklenen lüks stüdyo parametreleri:
   prompt_lore?: string;
   ai_tools?: string[];
+  views?: number;
   views_count?: number;
   resonance_count?: number;
 }

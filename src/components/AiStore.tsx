@@ -1,10 +1,14 @@
 
+import { useState } from 'react';
+import { supabase } from '../supabaseClient';
+
 interface StoreItem {
   id: string;
   title: string;
   category: 'COLOR GRADING' | 'CREATIVE DIRECTION' | 'SOUNDSCAPES';
   description: string;
   creator: string;
+  price: number;
   features: string[];
 }
 
@@ -15,6 +19,7 @@ const STORE_ITEMS: StoreItem[] = [
     category: 'COLOR GRADING', 
     description: 'A bespoke cinematic emulsion profile designed to infuse digital renders with the organic texture, rich density, and timeless atmosphere of vintage celluloid film.', 
     creator: 'Noctis Editorial', 
+    price: 150,
     features: ['3 Professional 3D LUTs (.cube)', 'Optimized for DaVinci Resolve & Premiere', 'S-Curve Contrast Adjustment'] 
   },
   { 
@@ -23,6 +28,7 @@ const STORE_ITEMS: StoreItem[] = [
     category: 'CREATIVE DIRECTION', 
     description: 'An exclusive collection of structured visual guides, lighting blueprints, and prompt formulas designed to achieve photorealistic atmosphere, architectural depth, and premium character portraits.', 
     creator: 'Studio Aurora', 
+    price: 200,
     features: ['50 Highly Curated Directives', 'Lighting and Camera Angle Formula Guide', 'Composition Frameworks'] 
   },
   { 
@@ -31,6 +37,7 @@ const STORE_ITEMS: StoreItem[] = [
     category: 'SOUNDSCAPES', 
     description: 'A masterfully recorded suite of analog synthesizer drones, low-frequency atmospheric swells, and tactile transition sweeps to establish immediate tension and narrative depth.', 
     creator: 'Core Sound', 
+    price: 100,
     features: ['24 Mastered High-Fidelity WAV Files', 'Royalty-Free Commercial License', 'Metadata and Key Tagged'] 
   }
 ];
@@ -41,7 +48,46 @@ interface AiStoreProps {
   onBuy: (item: any) => void;
 }
 
-export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps) {
+export default function AiStore({ credits, purchasedItems, onBuy: _onBuy }: AiStoreProps) {
+  const [_userCredits, setUserCredits] = useState(credits);
+  const [purchasedItemsList, setPurchasedItems] = useState<string[]>(purchasedItems);
+
+  const handleBuyItem = async (itemId: string, price: number) => {
+    // 1. İşlem başladığında kullanıcıyı bilgilendir (Opsiyonel ama şık)
+    console.log("Lisanslama süreci başlatıldı...");
+
+    try {
+      // 2. Supabase RPC fonksiyonunu tetikliyoruz
+      const { data, error } = await supabase.rpc('buy_ai_asset', {
+        item_id: itemId,
+        item_price: price
+      });
+
+      if (error) throw error;
+
+      // 3. Başarı durumu
+      if (data.success) {
+        // ✅ İŞTE SİHİRLİ SATIR: 
+        // Supabase'den gelen yeni bakiye bilgisini (data.new_credits) 
+        // doğrudan React state'ine set ediyoruz.
+        setUserCredits(data.new_credits);
+        
+        // Kullanıcıya görsel bir onay ver (Toaster veya alert)
+        alert("Lisans başarıyla cüzdanınıza eklendi.");
+        
+        // Opsiyonel: Satın alınanları listeye ekle ki "Satın Al" butonu "Kullan"a dönüşsün
+        setPurchasedItems((prev) => [...prev, itemId]);
+        
+      } else {
+        // Yetersiz bakiye veya zaten sahip olma durumu
+        alert(data.message || "İşlem başarısız.");
+      }
+    } catch (err) {
+      console.error("Sistem hatası:", err);
+      alert("Cüzdan bağlantısında bir sorun oluştu, lütfen tekrar deneyin.");
+    }
+  };
+
   return (
     <div className="space-y-12 animate-fade-in max-w-6xl mx-auto py-4 select-none">
       <span className="hidden">{credits}</span>
@@ -69,7 +115,7 @@ export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps
       {/* Asset Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {STORE_ITEMS.map((item) => {
-          const isActivated = purchasedItems.includes(item.id);
+          const isActivated = purchasedItemsList.includes(item.id);
           
           return (
             <div 
@@ -117,7 +163,7 @@ export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps
               {/* Action Segment */}
               <div className="mt-10 pt-5 border-t border-white/[0.05]">
                 <button
-                  onClick={() => onBuy(item)}
+                  onClick={() => handleBuyItem(item.id, item.price)}
                   disabled={isActivated}
                   className={`w-full py-3 rounded-xl text-[9px] font-mono tracking-widest uppercase transition-all duration-300 ease-out font-bold ${
                     isActivated 
