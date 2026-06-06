@@ -732,8 +732,38 @@ export default function App() {
   };
 
   useEffect(() => {
+    // 1. Sayfa ilk açıldığında mevcut filmleri Supabase'den çekiyoruz
     refreshMoviesList();
     refreshStoreItems();
+
+    // 2. Canlı Akış Odası (Realtime Channel) Kurulumu
+    const noctisRealtimeChannel = supabase
+      .channel('noctis-live-transmissions')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT', // Sadece yeni film yüklendiğinde tetiklenir
+          schema: 'public',
+          table: 'movies'
+        },
+        (payload) => {
+          // Veritabanına yeni bir film (sinyal) eklendiği an burası çalışır
+          const newSignal = payload.new as Movie;
+          
+          // Yeni gelen filmi listenin en üstüne pürüzsüzce yerleştiriyoruz
+          setMovies((currentMovies) => {
+            // Eğer film listede zaten varsa (çift kayıt olmaması için) ekleme
+            if (currentMovies.some(m => m.id === newSignal.id)) return currentMovies;
+            return [newSignal, ...currentMovies];
+          });
+        }
+      )
+      .subscribe();
+
+    // 3. Temizlik Protokolü (Bileşen kapandığında hafıza sızıntısını önler)
+    return () => {
+      supabase.removeChannel(noctisRealtimeChannel);
+    };
   }, [session]);
 
   // Video izleme tıklandığında geçmişe kaydetme protokolü
