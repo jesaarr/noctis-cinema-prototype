@@ -1,4 +1,3 @@
-import React from 'react';
 import VideoPlayer from './VideoPlayer';
 import VideoMeta from './VideoMeta';
 import CommentSection from './CommentSection';
@@ -16,12 +15,12 @@ export default function VideoContainer({ movie, onClose, session, onViewProfile 
     <div className="space-y-8 max-w-5xl mx-auto animate-fade-in">
       <button 
         onClick={onClose} 
-        className="text-[9px] font-mono uppercase tracking-widest text-[#eab308]/80 hover:text-[#eab308] transition-all duration-300 flex items-center gap-2"
+        className="text-[9px] font-mono uppercase tracking-widest text-noctis-gold/80 hover:text-noctis-gold transition-all duration-300 flex items-center gap-2"
       >
         <span>←</span> SEÇİME GERİ DÖN
       </button>
 
-      <div className="aspect-video w-full rounded-[32px] overflow-hidden border border-gray-900 shadow-2xl relative bg-black">
+      <div className="aspect-video w-full rounded-[32px] overflow-hidden border border-white/[0.05] shadow-2xl relative bg-black">
         <VideoPlayer videoId={vid} />
       </div>
 

@@ -161,22 +161,22 @@ export default function Auth() {
         .input-field:not(:placeholder-shown) ~ .input-label {
           top: -12px;
           font-size: 9px;
-          color: #eab308;
+          color: #d4af37;
         }
       `}</style>
 
       {/* Arka Planda Kademeli Sinematik Altın Sis Efekti */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-amber-500/10 to-transparent rounded-full blur-[150px] pointer-events-none animate-ambient-glow" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-noctis-gold/10 to-transparent rounded-full blur-[150px] pointer-events-none animate-ambient-glow" />
 
       {/* Ana Giriş Kartı */}
-      <div className="w-full max-w-sm bg-[#0a0a0c]/90 border border-[#1a1a1e] p-8 rounded-[28px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative z-10 transition-all duration-500 hover:border-amber-500/20 backdrop-blur-xl">
+      <div className="w-full max-w-sm bg-noctis-bg/90 border border-white/[0.05] p-8 rounded-[28px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative z-10 transition-all duration-500 hover:border-noctis-gold/20 backdrop-blur-xl">
         
         {/* Üstteki İnce Sinematik Çizgi (Adım 2'ye Geçince Parıldar) */}
-        <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#eab308] to-transparent transition-all duration-1000 ${isSignUp && step === 2 ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
+        <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-noctis-gold to-transparent transition-all duration-1000 ${isSignUp && step === 2 ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
 
         {/* Logo / Başlık */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-extralight tracking-[0.6em] text-white pl-[0.6em] transition-all duration-500 hover:tracking-[0.7em]">NOCTIS</h2>
+          <h2 className="text-3xl font-extralight tracking-[0.6em] text-noctis-platinum pl-[0.6em] transition-all duration-500 hover:tracking-[0.7em]">NOCTIS</h2>
           <p className="text-[9px] tracking-[0.3em] text-[#a1a1aa] font-mono uppercase mt-2.5">
             {isSignUp ? `// Stage 0${step} : Configuration` : '// Establish Link'}
           </p>
@@ -186,8 +186,8 @@ export default function Auth() {
         {message && (
           <div className={`text-[11px] p-3 rounded-xl mb-6 border font-mono transition-all duration-300 animate-shutter-in ${
             isError
-              ? 'text-amber-500 bg-amber-950/10 border-amber-500/20'
-              : 'text-[#f4f4f5] bg-[#111115] border-[#222227]'
+              ? 'text-noctis-gold bg-noctis-card/10 border-noctis-gold/20'
+              : 'text-[#f4f4f5] bg-noctis-card border-white/[0.05]'
           }`}>
             {isError ? '⚡ ENGINE_ALERT: ' : '✓ PROCESS_OK: '} {message}
           </div>
@@ -197,7 +197,7 @@ export default function Auth() {
         {!isSignUp || (isSignUp && step === 1) ? (
           <form onSubmit={isSignUp ? handleNextStep : handleSubmit} className="space-y-6 animate-shutter-in">
             {/* Minimalist Underline Email Input */}
-            <div className="input-group border-b border-[#1f1f23] focus-within:border-[#eab308] transition-colors duration-300 pb-1">
+            <div className="input-group border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors duration-300 pb-1">
               <input
                 type="email"
                 value={email}
@@ -213,7 +213,7 @@ export default function Auth() {
             </div>
 
             {/* Minimalist Underline Password Input */}
-            <div className="input-group border-b border-[#1f1f23] focus-within:border-[#eab308] transition-colors duration-300 pb-1">
+            <div className="input-group border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors duration-300 pb-1">
               <input
                 type="password"
                 value={password}
@@ -240,7 +240,7 @@ export default function Auth() {
           /* --- ADIM 2: PROFİL VE AVATAR YAPILANDIRMASI --- */
           <form onSubmit={handleSubmit} className="space-y-6 animate-shutter-in">
             {/* Minimalist Underline Username Input */}
-            <div className="input-group border-b border-[#1f1f23] focus-within:border-[#eab308] transition-colors duration-300 pb-1">
+            <div className="input-group border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors duration-300 pb-1">
               <input
                 type="text"
                 value={username}
@@ -267,8 +267,8 @@ export default function Auth() {
                     onClick={() => !loading && setSelectedAvatar(av.id)}
                     className={`aspect-square rounded-full flex flex-col items-center justify-center transition-all duration-300 relative border ${
                       selectedAvatar === av.id 
-                        ? 'border-[#eab308] bg-amber-950/10 shadow-[0_0_15px_rgba(234,179,8,0.15)] scale-105' 
-                        : 'border-[#1f1f23] bg-transparent hover:border-[#3a3a3e]'
+                        ? 'border-noctis-gold bg-noctis-card/10 shadow-[0_0_15px_rgba(212,175,55,0.15)] scale-105' 
+                        : 'border-white/[0.05] bg-transparent hover:border-[#3a3a3e]'
                     }`}
                   >
                     <span className="text-xl">{av.emoji}</span>
@@ -283,14 +283,14 @@ export default function Auth() {
                 type="button"
                 onClick={() => setStep(1)}
                 disabled={loading}
-                className="flex-1 py-3 bg-transparent border border-[#1f1f23] hover:border-[#333338] text-gray-400 hover:text-white rounded-xl text-[10px] tracking-[0.2em] uppercase font-mono transition-all duration-300"
+                className="flex-1 py-3 bg-transparent border border-white/[0.05] hover:border-[#333338] text-noctis-muted hover:text-noctis-platinum rounded-xl text-[10px] tracking-[0.2em] uppercase font-mono transition-all duration-300"
               >
                 Back
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 bg-transparent border border-[#eab308]/40 hover:border-[#eab308] hover:bg-amber-950/10 text-[#eab308] rounded-xl text-[10px] tracking-[0.2em] uppercase font-semibold transition-all duration-300 shadow-[0_0_15px_rgba(234,179,8,0.05)]"
+                className="flex-1 py-3 bg-transparent border border-noctis-gold/40 hover:border-noctis-gold hover:bg-noctis-card/10 text-noctis-gold rounded-xl text-[10px] tracking-[0.2em] uppercase font-semibold transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.05)]"
               >
                 {loading ? 'Linking...' : 'Initialize'}
               </button>
@@ -302,15 +302,15 @@ export default function Auth() {
         {(!isSignUp || step === 1) && (
           <>
             <div className="relative my-6 flex items-center justify-center">
-              <div className="h-[1px] w-full bg-[#111115]" />
-              <span className="absolute bg-[#0a0a0c] px-3.5 text-[9px] uppercase tracking-[0.3em] text-[#52525b] font-mono">OR</span>
+              <div className="h-[1px] w-full bg-noctis-card" />
+              <span className="absolute bg-noctis-bg px-3.5 text-[9px] uppercase tracking-[0.3em] text-[#52525b] font-mono">OR</span>
             </div>
 
             <button
               type="button"
               onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full py-3 bg-transparent hover:bg-white/[0.01] border border-[#1f1f23] text-gray-400 hover:text-white rounded-xl text-[10px] tracking-[0.15em] uppercase flex items-center justify-center gap-3 transition-all duration-300 hover:border-[#3f3f46]"
+              className="w-full py-3 bg-transparent hover:bg-white/[0.01] border border-white/[0.05] text-noctis-muted hover:text-noctis-platinum rounded-xl text-[10px] tracking-[0.15em] uppercase flex items-center justify-center gap-3 transition-all duration-300 hover:border-[#3f3f46]"
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -332,7 +332,7 @@ export default function Auth() {
               setStep(1);
               setMessage('');
             }}
-            className="text-[9px] uppercase tracking-[0.3em] text-[#eab308] hover:text-white transition-colors duration-300 font-mono"
+            className="text-[9px] uppercase tracking-[0.3em] text-noctis-gold hover:text-noctis-platinum transition-colors duration-300 font-mono"
           >
             {isSignUp ? '// Establish Link (Sign In)' : '// Initiate Setup (Register)'}
           </button>

@@ -74,25 +74,25 @@ export default function AccountSettingsModal({ session, onClose, onRefreshSessio
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in select-none">
-      <div className="w-full max-w-md bg-[#09090b] border border-gray-900/80 p-8 rounded-[32px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative">
+      <div className="w-full max-w-md bg-noctis-bg border border-white/[0.05]/80 p-8 rounded-[32px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative">
         
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 text-gray-500 hover:text-white text-xs tracking-widest transition-colors p-2"
+          className="absolute top-6 right-6 text-noctis-muted hover:text-noctis-platinum text-xs tracking-widest transition-colors p-2"
         >
           CLOSE
         </button>
 
         <div className="mb-8 space-y-1">
           <h3 className="text-sm font-light uppercase tracking-[0.25em] text-gray-200">Studio Profile</h3>
-          <p className="text-[10px] text-gray-500 font-mono tracking-wide">MANAGE ACCOUNT IDENTIFICATION</p>
+          <p className="text-[10px] text-noctis-muted font-mono tracking-wide">MANAGE ACCOUNT IDENTIFICATION</p>
         </div>
 
         {statusMessage && (
           <div className={`text-[11px] font-mono tracking-wide p-4 rounded-xl mb-6 border transition-all ${
             isError
               ? 'text-red-400 bg-red-950/10 border-red-900/30'
-              : 'text-amber-500 bg-amber-950/5 border-amber-950/30'
+              : 'text-noctis-gold bg-noctis-card/5 border-white/[0.03]'
           }`}>
             {statusMessage}
           </div>
@@ -101,19 +101,19 @@ export default function AccountSettingsModal({ session, onClose, onRefreshSessio
         <form onSubmit={handleUpdateAccount} className="space-y-6">
           
           <div className="space-y-2">
-            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-gray-500">Username Identifier</label>
+            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-noctis-muted">Username Identifier</label>
             <input
               type="text"
               value={newUsername}
               onChange={(e) => setNewUsername(e.target.value)}
-              className="w-full bg-[#050507] border border-gray-900 focus:border-gray-800 text-gray-200 rounded-xl px-4 py-3 text-xs outline-none tracking-wide transition-all"
+              className="w-full bg-noctis-card border border-white/[0.05] focus:border-white/[0.03] text-gray-200 rounded-xl px-4 py-3 text-xs outline-none tracking-wide transition-all"
               required
               disabled={loading}
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-gray-500">Signature Index</label>
+            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-noctis-muted">Signature Index</label>
             <div className="grid grid-cols-4 gap-3">
               {Object.entries(AVATAR_MAP).map(([key, labelCode]) => (
                 <button
@@ -123,8 +123,8 @@ export default function AccountSettingsModal({ session, onClose, onRefreshSessio
                   onClick={() => setSelectedAvatar(key)}
                   className={`py-3 rounded-xl border text-[10px] font-mono tracking-widest transition-all ${
                     selectedAvatar === key
-                      ? 'border-amber-500 text-amber-500 bg-amber-500/[0.02]'
-                      : 'border-gray-900 bg-[#050507] text-gray-500 hover:border-gray-800 hover:text-gray-300'
+                      ? 'border-noctis-gold text-noctis-gold bg-noctis-gold/[0.02]'
+                      : 'border-white/[0.05] bg-noctis-card text-noctis-muted hover:border-white/[0.03] hover:text-gray-300'
                   }`}
                 >
                   {labelCode}
@@ -133,8 +133,8 @@ export default function AccountSettingsModal({ session, onClose, onRefreshSessio
             </div>
           </div>
 
-          <div className="space-y-2 pt-2 border-t border-gray-900/40">
-            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-gray-500">
+          <div className="space-y-2 pt-2 border-t border-white/[0.05]/40">
+            <label className="text-[9px] uppercase tracking-[0.2em] font-mono text-noctis-muted">
               {hasPasswordBound ? 'Security Key (Change)' : 'Assign Security Key'}
             </label>
             <input
@@ -142,24 +142,24 @@ export default function AccountSettingsModal({ session, onClose, onRefreshSessio
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder={hasPasswordBound ? 'Leave vacant to preserve current' : 'Define secure passphrase'}
-              className="w-full bg-[#050507] border border-gray-900 focus:border-gray-800 text-gray-200 rounded-xl px-4 py-3 text-xs outline-none placeholder:text-gray-700 tracking-wide transition-all"
+              className="w-full bg-noctis-card border border-white/[0.05] focus:border-white/[0.03] text-gray-200 rounded-xl px-4 py-3 text-xs outline-none placeholder:text-gray-700 tracking-wide transition-all"
               disabled={loading}
             />
           </div>
 
-          <div className="flex gap-4 pt-4 border-t border-gray-900/40">
+          <div className="flex gap-4 pt-4 border-t border-white/[0.05]/40">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 py-3 bg-transparent border border-gray-900 text-gray-500 rounded-xl text-[9px] font-mono uppercase tracking-widest hover:border-gray-800 hover:text-gray-300 transition-all"
+              className="flex-1 py-3 bg-transparent border border-white/[0.05] text-noctis-muted rounded-xl text-[9px] font-mono uppercase tracking-widest hover:border-white/[0.03] hover:text-gray-300 transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 bg-transparent border border-amber-500/30 hover:border-amber-500 text-amber-500 rounded-xl text-[9px] font-mono uppercase tracking-widest transition-all font-bold"
+              className="flex-1 py-3 bg-transparent border border-noctis-gold/30 hover:border-noctis-gold text-noctis-gold rounded-xl text-[9px] font-mono uppercase tracking-widest transition-all font-bold"
             >
               {loading ? 'Processing...' : 'Save Configuration'}
             </button>

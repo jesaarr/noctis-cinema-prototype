@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import type { Session } from '@supabase/supabase-js';
 
 interface Signal {
@@ -9,8 +9,8 @@ interface Signal {
   director_id: string;
   youtube_id: string;
   cover_url: string;
-  prompt_lore: string;
-  ai_tools: string[];
+  prompt_lore?: string;
+  ai_tools?: string[];
   created_at: string;
 }
 
@@ -28,7 +28,7 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
     let totalEchoes = 0;
     let totalResonances = 0;
 
-    const signalDetails = mySignals.map((sig, index) => {
+    const signalDetails = mySignals.map((sig) => {
       // Rastgeleliği önleyen String Tabanlı Güvenli Hash Algoritması (Seed Motoru)
       // Film adındaki ve ID'sindeki karakter kodlarını kullanarak sabit bir sayı üretir.
       const stringKey = `${sig.id}-${sig.title}`;
@@ -79,46 +79,46 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Metric 1: Echo Strength (Total Views) */}
-        <div className="bg-[#030305] border border-gray-900 rounded-2xl p-6 relative overflow-hidden group hover:border-[#eab308]/20 transition-all duration-500">
-          <div className="absolute top-0 left-0 w-1 h-full bg-[#eab308]/40 group-hover:bg-[#eab308] transition-all duration-500" />
-          <p className="text-[10px] font-mono tracking-[0.2em] text-gray-500 uppercase">ECHO STRENGTH</p>
+        <div className="bg-noctis-bg border border-white/[0.05] rounded-2xl p-6 relative overflow-hidden group hover:border-noctis-gold/20 transition-all duration-500">
+          <div className="absolute top-0 left-0 w-1 h-full bg-noctis-gold/40 group-hover:bg-noctis-gold transition-all duration-500" />
+          <p className="text-[10px] font-mono tracking-[0.2em] text-noctis-muted uppercase">ECHO STRENGTH</p>
           <div className="flex items-baseline gap-2 mt-4">
-            <span className="text-3xl font-extralight tracking-tight text-white">
+            <span className="text-3xl font-extralight tracking-tight text-noctis-platinum">
               {analyticsData.totalEchoes.toLocaleString('tr-TR')}
             </span>
-            <span className="text-[10px] text-gray-600 font-mono uppercase">Hertz</span>
+            <span className="text-[10px] text-noctis-muted font-mono uppercase">Hertz</span>
           </div>
-          <p className="text-[9px] text-gray-500 font-light mt-2">
+          <p className="text-[9px] text-noctis-muted font-light mt-2">
             Toplam sinyal yayılımı ve izleyici erişimi.
           </p>
         </div>
 
         {/* Metric 2: Resonance Score (Engagement) */}
-        <div className="bg-[#030305] border border-gray-900 rounded-2xl p-6 relative overflow-hidden group hover:border-[#eab308]/20 transition-all duration-500">
-          <div className="absolute top-0 left-0 w-1 h-full bg-amber-600/20 group-hover:bg-amber-600/60 transition-all duration-500" />
-          <p className="text-[10px] font-mono tracking-[0.2em] text-gray-500 uppercase">RESONANCE RATE</p>
+        <div className="bg-noctis-bg border border-white/[0.05] rounded-2xl p-6 relative overflow-hidden group hover:border-noctis-gold/20 transition-all duration-500">
+          <div className="absolute top-0 left-0 w-1 h-full bg-noctis-gold/20 group-hover:bg-noctis-gold/60 transition-all duration-500" />
+          <p className="text-[10px] font-mono tracking-[0.2em] text-noctis-muted uppercase">RESONANCE RATE</p>
           <div className="flex items-baseline gap-2 mt-4">
-            <span className="text-3xl font-extralight tracking-tight text-[#eab308]">
+            <span className="text-3xl font-extralight tracking-tight text-noctis-gold">
               %{analyticsData.averageResonance}
             </span>
-            <span className="text-[10px] text-gray-600 font-mono uppercase">Frekans</span>
+            <span className="text-[10px] text-noctis-muted font-mono uppercase">Frekans</span>
           </div>
-          <p className="text-[9px] text-gray-500 font-light mt-2">
+          <p className="text-[9px] text-noctis-muted font-light mt-2">
             İzleyicilerin sinyal evreniyle kurduğu bağ oranı.
           </p>
         </div>
 
         {/* Metric 3: Active Signals (Uploads Count) */}
-        <div className="bg-[#030305] border border-gray-900 rounded-2xl p-6 relative overflow-hidden group hover:border-[#eab308]/20 transition-all duration-500">
+        <div className="bg-noctis-bg border border-white/[0.05] rounded-2xl p-6 relative overflow-hidden group hover:border-noctis-gold/20 transition-all duration-500">
           <div className="absolute top-0 left-0 w-1 h-full bg-gray-800 group-hover:bg-gray-600 transition-all duration-500" />
-          <p className="text-[10px] font-mono tracking-[0.2em] text-gray-500 uppercase">ACTIVE SIGNALS</p>
+          <p className="text-[10px] font-mono tracking-[0.2em] text-noctis-muted uppercase">ACTIVE SIGNALS</p>
           <div className="flex items-baseline gap-2 mt-4">
-            <span className="text-3xl font-extralight tracking-tight text-white">
+            <span className="text-3xl font-extralight tracking-tight text-noctis-platinum">
               {mySignals.length}
             </span>
-            <span className="text-[10px] text-gray-600 font-mono uppercase">Yayın</span>
+            <span className="text-[10px] text-noctis-muted font-mono uppercase">Yayın</span>
           </div>
-          <p className="text-[9px] text-gray-500 font-light mt-2">
+          <p className="text-[9px] text-noctis-muted font-light mt-2">
             Uzay boşluğunda aktif olarak yayılan sinemalarınız.
           </p>
         </div>
@@ -128,14 +128,14 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
       {/* ============================================
           SECTION 2: LINEAR GRID CHART (Minimal Activity)
           ============================================ */}
-      <div className="bg-[#030305] border border-gray-900 rounded-2xl p-6">
+      <div className="bg-noctis-bg border border-white/[0.05] rounded-2xl p-6">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xs font-mono tracking-widest text-gray-400 uppercase">// BROADCAST TIMELINE</h3>
-          <span className="text-[8px] text-gray-600 font-mono uppercase">24 Hour Transmission Feed</span>
+          <h3 className="text-xs font-mono tracking-widest text-noctis-muted uppercase">// BROADCAST TIMELINE</h3>
+          <span className="text-[8px] text-noctis-muted font-mono uppercase">24 Hour Transmission Feed</span>
         </div>
         
         {/* Yatay lüks şerit analiz çizgisi */}
-        <div className="relative h-16 w-full flex items-end gap-[3px] border-b border-gray-900 pb-2">
+        <div className="relative h-16 w-full flex items-end gap-[3px] border-b border-white/[0.05] pb-2">
           {Array.from({ length: 48 }).map((_, idx) => {
             // Zaman tüneli dalgalanmasını da sabit tutmak için matematiksel bir sinüs dalgası
             const height = Math.abs(Math.sin(idx * 0.3) * 35) + 10;
@@ -146,8 +146,8 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
                 style={{ height: `${height}%` }}
                 className={`flex-1 transition-all duration-500 rounded-sm ${
                   isHighlight 
-                    ? 'bg-[#eab308]/80 hover:bg-[#eab308]' 
-                    : 'bg-gray-950 hover:bg-[#eab308]/20'
+                    ? 'bg-noctis-gold/80 hover:bg-noctis-gold' 
+                    : 'bg-noctis-card hover:bg-noctis-gold/20'
                 }`}
                 title="Sinyal Akış Yoğunluğu"
               />
@@ -155,7 +155,7 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
           })}
         </div>
         
-        <div className="flex justify-between text-[8px] text-gray-600 font-mono mt-2">
+        <div className="flex justify-between text-[8px] text-noctis-muted font-mono mt-2">
           <span>00:00 UTC</span>
           <span>12:00 UTC</span>
           <span>24:00 UTC</span>
@@ -166,12 +166,12 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
           SECTION 3: SIGNAL BREAKDOWN LIST
           ============================================ */}
       <div className="space-y-4">
-        <h3 className="text-xs font-mono tracking-widest text-gray-400 uppercase border-b border-gray-900 pb-2">
+        <h3 className="text-xs font-mono tracking-widest text-noctis-muted uppercase border-b border-white/[0.05] pb-2">
           // INDIVIDUAL SIGNAL LOGS
         </h3>
 
         {analyticsData.signalDetails.length === 0 ? (
-          <p className="text-center py-10 text-[10px] text-gray-500 font-mono uppercase tracking-wider">
+          <p className="text-center py-10 text-[10px] text-noctis-muted font-mono uppercase tracking-wider">
             Sinyal kaydı bulunamadı. Veriler yayınlanınca işlenecektir.
           </p>
         ) : (
@@ -179,18 +179,18 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
             {analyticsData.signalDetails.map((sig) => (
               <div 
                 key={sig.id} 
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-[#030305] border border-gray-900 rounded-xl hover:border-gray-800 transition-all duration-300"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-noctis-bg border border-white/[0.05] rounded-xl hover:border-white/[0.03] transition-all duration-300"
               >
                 {/* Sol Kısım: Başlık & Thumbnail */}
                 <div className="flex items-center gap-4 min-w-0">
                   <img 
                     src={sig.coverUrl} 
                     alt={sig.title} 
-                    className="w-10 h-10 rounded-lg object-cover border border-gray-900 shrink-0"
+                    className="w-10 h-10 rounded-lg object-cover border border-white/[0.05] shrink-0"
                   />
                   <div className="min-w-0">
                     <h4 className="text-xs font-light text-gray-200 truncate">{sig.title}</h4>
-                    <p className="text-[9px] text-gray-600 font-mono uppercase mt-0.5">Yönetmen: @{username.toLowerCase()}</p>
+                    <p className="text-[9px] text-noctis-muted font-mono uppercase mt-0.5">Yönetmen: @{username.toLowerCase()}</p>
                   </div>
                 </div>
 
@@ -199,11 +199,11 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
                   
                   {/* Views/Echoes */}
                   <div className="w-24">
-                    <div className="flex justify-between text-[8px] text-gray-500 mb-1">
+                    <div className="flex justify-between text-[8px] text-noctis-muted mb-1">
                       <span>ECHOES</span>
                       <span>{sig.echoes} hz</span>
                     </div>
-                    <div className="h-1 bg-gray-950 rounded-full overflow-hidden">
+                    <div className="h-1 bg-noctis-card rounded-full overflow-hidden">
                       <div 
                         style={{ width: `${(sig.echoes / 3500) * 100}%` }}
                         className="h-full bg-gray-600 rounded-full"
@@ -213,14 +213,14 @@ export default function CreatorStats({ session, mySignals }: CreatorStatsProps) 
 
                   {/* Resonance */}
                   <div className="w-24">
-                    <div className="flex justify-between text-[8px] text-gray-500 mb-1">
+                    <div className="flex justify-between text-[8px] text-noctis-muted mb-1">
                       <span>RESONANCE</span>
                       <span>%{sig.resonanceRate}</span>
                     </div>
-                    <div className="h-1 bg-gray-950 rounded-full overflow-hidden">
+                    <div className="h-1 bg-noctis-card rounded-full overflow-hidden">
                       <div 
                         style={{ width: `${sig.resonanceRate}%` }}
-                        className="h-full bg-[#eab308] rounded-full"
+                        className="h-full bg-noctis-gold rounded-full"
                       />
                     </div>
                   </div>

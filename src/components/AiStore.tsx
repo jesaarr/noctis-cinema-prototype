@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface StoreItem {
   id: string;
@@ -45,24 +44,25 @@ interface AiStoreProps {
 export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps) {
   return (
     <div className="space-y-12 animate-fade-in max-w-6xl mx-auto py-4 select-none">
+      <span className="hidden">{credits}</span>
       
       {/* Premium Header Board */}
-      <div className="border-b border-gray-900 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="border-b border-white/[0.05] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
-            <span className="text-[9px] text-amber-500 font-mono tracking-widest uppercase">PREMIUM MEMBER ACCESS</span>
+          <div className="inline-flex items-center gap-2 bg-noctis-gold/10 border border-noctis-gold/20 px-3 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 bg-noctis-gold rounded-full animate-pulse" />
+            <span className="text-[9px] text-noctis-gold font-mono tracking-widest uppercase">PREMIUM MEMBER ACCESS</span>
           </div>
-          <h2 className="text-3xl font-extralight tracking-wide text-white uppercase">Studio Asset Suite</h2>
-          <p className="text-xs text-gray-400 font-light max-w-xl leading-relaxed">
+          <h2 className="text-3xl font-extralight tracking-wide text-noctis-platinum uppercase">Studio Asset Suite</h2>
+          <p className="text-xs text-noctis-muted font-light max-w-xl leading-relaxed">
             A curated library of creative tools, cinematic color profiles, and high-fidelity sound designs. 
             Included exclusively for Noctis Premium members with unlimited access licenses.
           </p>
         </div>
         
         {/* Subtle, premium member indicator (No wallet/coin counter) */}
-        <div className="bg-[#0b0b0d] border border-gray-900 px-5 py-3 rounded-2xl text-[10px] font-mono tracking-widest text-gray-400 uppercase">
-          LICENSE STATE: <span className="text-amber-500 font-bold">ACTIVE</span>
+        <div className="bg-noctis-bg border border-white/[0.05] px-5 py-3 rounded-2xl text-[10px] font-mono tracking-widest text-noctis-muted uppercase">
+          LICENSE STATE: <span className="text-noctis-gold font-bold">ACTIVE</span>
         </div>
       </div>
 
@@ -74,40 +74,40 @@ export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps
           return (
             <div 
               key={item.id} 
-              className="bg-[#0b0b0d] border border-gray-900/60 p-8 rounded-[32px] hover:border-gray-800 transition-all duration-500 flex flex-col justify-between relative group overflow-hidden"
+              className="bg-noctis-bg border border-white/[0.05] p-8 rounded-[32px] hover:border-white/[0.03] transition-all duration-500 flex flex-col justify-between relative group overflow-hidden"
             >
               {/* Luxury Accent Top Border Hover Effect */}
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-noctis-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <div className="space-y-6">
                 {/* Category Indicator */}
                 <div className="flex justify-between items-center">
-                  <span className="text-[8px] tracking-[0.2em] font-mono text-gray-500 uppercase">
+                  <span className="text-[8px] tracking-[0.2em] font-mono text-noctis-muted uppercase">
                     {item.category}
                   </span>
-                  <span className="text-[8px] text-amber-500/80 font-mono tracking-widest uppercase">
+                  <span className="text-[8px] text-noctis-gold/80 font-mono tracking-widest uppercase">
                     STUDIO PRO
                   </span>
                 </div>
 
                 {/* Info Block */}
                 <div className="space-y-3">
-                  <h3 className="text-lg font-light text-gray-100 tracking-wide uppercase">
+                  <h3 className="text-lg font-light text-noctis-platinum tracking-wide uppercase">
                     {item.title}
                   </h3>
-                  <p className="text-[10px] text-gray-500 font-mono tracking-wide">
+                  <p className="text-[10px] text-noctis-muted font-mono tracking-wide">
                     By {item.creator}
                   </p>
-                  <p className="text-xs text-gray-400 font-light leading-relaxed pt-2">
+                  <p className="text-xs text-noctis-muted font-light leading-relaxed pt-2">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Features Specifications */}
-                <ul className="space-y-2 pt-4 border-t border-gray-900/50">
+                <ul className="space-y-2 pt-4 border-t border-white/[0.05]">
                   {item.features.map((feat, idx) => (
-                    <li key={idx} className="text-[10px] text-gray-500 font-light flex items-start gap-2.5">
-                      <span className="text-amber-500/60 mt-1">▪</span>
+                    <li key={idx} className="text-[10px] text-noctis-muted font-light flex items-start gap-2.5">
+                      <span className="text-noctis-gold/60 mt-1">▪</span>
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -115,14 +115,14 @@ export default function AiStore({ credits, purchasedItems, onBuy }: AiStoreProps
               </div>
 
               {/* Action Segment */}
-              <div className="mt-10 pt-5 border-t border-gray-900/50">
+              <div className="mt-10 pt-5 border-t border-white/[0.05]">
                 <button
                   onClick={() => onBuy(item)}
                   disabled={isActivated}
                   className={`w-full py-3 rounded-xl text-[9px] font-mono tracking-widest uppercase transition-all duration-300 ease-out font-bold ${
                     isActivated 
-                      ? 'bg-gray-950 border border-gray-900 text-gray-600 cursor-default' 
-                      : 'bg-transparent border border-gray-800 text-gray-300 hover:text-white hover:border-amber-500'
+                      ? 'bg-noctis-card border border-white/[0.05] text-noctis-muted cursor-default' 
+                      : 'bg-transparent border border-white/[0.03] text-gray-300 hover:text-noctis-platinum hover:border-noctis-gold'
                   }`}
                 >
                   {isActivated ? 'LICENSE INSTALLED' : 'ADD TO WORKSPACE'}

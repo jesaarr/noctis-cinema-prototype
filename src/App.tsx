@@ -8,41 +8,13 @@ import Sidebar from './components/Sidebar';
 import MovieGrid from './components/MovieGrid';
 import VideoContainer from './components/VideoContainer';
 import UserProfile from './components/UserProfile';
-
-// ============================================
-// METADATA VE HAZIR VERİTABANI (NOCTIS LORE)
-// ============================================
+import type { Movie, StoreItem } from './types/cinema';
 const AVATAR_MAP: Record<string, string> = {
-  'aurora': '👁️',
-  'director': '🎬',
-  'observer': '👤',
-  'core': '🌌',
+  'aurora': 'A',
+  'director': 'B',
+  'observer': 'C',
+  'core': 'D',
 };
-
-interface Movie {
-  id: string;
-  title: string;
-  description: string;
-  director: string;
-  director_id: string;
-  youtube_id: string;
-  cover_url: string;
-  prompt_lore?: string;
-  ai_tools?: string[];
-  created_at: string;
-}
-
-// AI Store Ürün Şeması
-interface StoreItem {
-  id: string;
-  title: string;
-  category: 'LUTS' | 'PROMPTS' | 'AUDIO' | '3D ASSETS';
-  price: number;
-  description: string;
-  creator: string;
-  rating: number;
-  features: string[];
-}
 
 const DEFAULT_MOVIES: Movie[] = [
   {
@@ -138,34 +110,34 @@ function CreatorStats({ mySignals }: CreatorStatsProps) {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-[#121214] border border-[#1f1f23] p-5 rounded-2xl text-center">
-          <p className="text-[9px] uppercase tracking-widest text-gray-500 font-mono">ECHO STRENGTH</p>
-          <p className="text-2xl font-light text-[#eab308] mt-2">{totalViews}</p>
-          <span className="text-[8px] text-gray-600 font-mono">Toplam İzlenme</span>
+        <div className="bg-noctis-card border border-white/[0.05] p-5 rounded-2xl text-center">
+          <p className="text-[9px] uppercase tracking-widest text-noctis-muted font-mono">ECHO STRENGTH</p>
+          <p className="text-2xl font-light text-noctis-gold mt-2">{totalViews}</p>
+          <span className="text-[8px] text-noctis-muted font-mono">Toplam İzlenme</span>
         </div>
-        <div className="bg-[#121214] border border-[#1f1f23] p-5 rounded-2xl text-center">
-          <p className="text-[9px] uppercase tracking-widest text-gray-500 font-mono">RESONANCES</p>
-          <p className="text-2xl font-light text-[#eab308] mt-2">{totalResonances}</p>
-          <span className="text-[8px] text-gray-600 font-mono">Etkileşimler</span>
+        <div className="bg-noctis-card border border-white/[0.05] p-5 rounded-2xl text-center">
+          <p className="text-[9px] uppercase tracking-widest text-noctis-muted font-mono">RESONANCES</p>
+          <p className="text-2xl font-light text-noctis-gold mt-2">{totalResonances}</p>
+          <span className="text-[8px] text-noctis-muted font-mono">Etkileşimler</span>
         </div>
-        <div className="bg-[#121214] border border-[#1f1f23] p-5 rounded-2xl text-center">
-          <p className="text-[9px] uppercase tracking-widest text-gray-500 font-mono">ACTIVE SIGNALS</p>
-          <p className="text-2xl font-light text-[#eab308] mt-2">{mySignals.length}</p>
-          <span className="text-[8px] text-gray-600 font-mono">Yayınlanan Film</span>
+        <div className="bg-noctis-card border border-white/[0.05] p-5 rounded-2xl text-center">
+          <p className="text-[9px] uppercase tracking-widest text-noctis-muted font-mono">ACTIVE SIGNALS</p>
+          <p className="text-2xl font-light text-noctis-gold mt-2">{mySignals.length}</p>
+          <span className="text-[8px] text-noctis-muted font-mono">Yayınlanan Film</span>
         </div>
       </div>
 
-      <div className="bg-[#121214] border border-[#1f1f23] p-6 rounded-3xl">
-        <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#eab308] mb-6">// BROADCAST TIMELINE</h4>
-        <div className="flex justify-between items-end h-24 px-4 border-b border-gray-900">
+      <div className="bg-noctis-card border border-white/[0.05] p-6 rounded-3xl">
+        <h4 className="text-[10px] font-mono uppercase tracking-widest text-noctis-gold mb-6">// BROADCAST TIMELINE</h4>
+        <div className="flex justify-between items-end h-24 px-4 border-b border-white/[0.05]">
           {[40, 15, 65, 30, 85, 45, 95, 20, 60, 50, 75, 90].map((val, idx) => (
             <div key={idx} className="flex flex-col items-center w-full group">
-              <div style={{ height: `${val}%` }} className="w-[3px] bg-gray-800 group-hover:bg-[#eab308] transition-all duration-500 rounded-t-full relative">
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-[#eab308] text-[7px] font-mono px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+              <div style={{ height: `${val}%` }} className="w-[3px] bg-gray-800 group-hover:bg-noctis-gold transition-all duration-500 rounded-t-full relative">
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-noctis-gold text-[7px] font-mono px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                   %{val}
                 </div>
               </div>
-              <span className="text-[7px] text-gray-600 font-mono mt-2">{idx + 1}h</span>
+              <span className="text-[7px] text-noctis-muted font-mono mt-2">{idx + 1}h</span>
             </div>
           ))}
         </div>
@@ -183,7 +155,7 @@ interface CreatorStudioProps {
 }
 
 function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
-  const [activeTab, setActiveTab] = useState<'broadcast' | 'signals' | 'analytics'>('broadcast');
+  const [activeTab, setActiveTab] = useState<'general' | 'advanced' | 'analytics'>('general');
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [isError, setIsError] = useState(false);
@@ -311,21 +283,6 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
     }
   };
 
-  const handleDeleteSignal = async (id: string) => {
-    if (!window.confirm('Bu sinyali kalıcı olarak silmek istediğinize emin misiniz?')) return;
-    try {
-      const localSignals = JSON.parse(localStorage.getItem('noctis_local_signals') || '[]') as Movie[];
-      const updated = localSignals.filter(sig => sig.id !== id);
-      localStorage.setItem('noctis_local_signals', JSON.stringify(updated));
-
-      setMySignals(prev => prev.filter(sig => sig.id !== id));
-      await supabase.from('movies').delete().eq('id', id);
-      onSignalBroadcasted();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -337,7 +294,7 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
 
   if (creatorCheckLoading) {
     return (
-      <div className="flex items-center justify-center py-20 text-xs font-mono text-gray-500 tracking-widest animate-pulse">
+      <div className="flex items-center justify-center py-20 text-xs font-mono text-noctis-muted tracking-widest animate-pulse">
         KİMLİK DOĞRULANIYOR...
       </div>
     );
@@ -346,17 +303,17 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
   if (!isCreator) {
     return (
       <div className="py-12 px-4 max-w-md mx-auto text-center space-y-6">
-        <div className="w-16 h-16 rounded-full border border-[#eab308]/20 flex items-center justify-center mx-auto text-2xl animate-pulse">
+        <div className="w-16 h-16 rounded-full border border-noctis-gold/20 flex items-center justify-center mx-auto text-2xl animate-pulse">
           ⚡
         </div>
-        <h3 className="text-sm font-light tracking-[0.3em] text-gray-100 uppercase">TRANSMISSION OFFLINE</h3>
-        <p className="text-[10px] text-gray-500 font-mono uppercase tracking-wider leading-relaxed">
+        <h3 className="text-sm font-light tracking-[0.3em] text-noctis-platinum uppercase">TRANSMISSION OFFLINE</h3>
+        <p className="text-[10px] text-noctis-muted font-mono uppercase tracking-wider leading-relaxed">
           Kendi yayın kuleleriniz henüz aktif edilmedi. Sinematik yapıtlarınızı NOCTIS evrenine ulaştırmak için kanalınızı tek tıkla başlatın.
         </p>
         <button
           onClick={handleInitializeChannel}
           disabled={loading}
-          className="w-full py-3 bg-[#eab308]/5 hover:bg-[#eab308]/10 border border-[#eab308]/20 hover:border-[#eab308] text-[#eab308] rounded-xl text-[10px] tracking-widest uppercase font-mono font-bold transition-all duration-500"
+          className="w-full py-3 bg-noctis-gold/10 hover:bg-noctis-gold/10 border border-noctis-gold/20 hover:border-noctis-gold text-noctis-gold rounded-xl text-[10px] tracking-widest uppercase font-mono font-bold transition-all duration-500"
         >
           {loading ? 'KULELER AKTİF EDİLİYOR...' : 'YAYIN FREKANSINI BAŞLAT'}
         </button>
@@ -365,38 +322,100 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex gap-6 border-b border-gray-900 pb-3 font-mono text-[10px]">
+    <div className="grid grid-cols-1 xl:grid-cols-[240px_1fr] gap-8 min-h-[calc(100vh-4rem)]">
+      <aside className="space-y-4 rounded-3xl border border-white/[0.05] bg-noctis-card p-6 shadow-noctis">
+        <div className="text-[10px] uppercase tracking-luxury text-noctis-muted mb-6">
+          CREATOR STUDIO
+        </div>
+
         <button
-          onClick={() => setActiveTab('broadcast')}
-          className={`pb-2 tracking-wider uppercase transition-colors ${activeTab === 'broadcast' ? 'text-[#eab308] border-b border-[#eab308]' : 'text-gray-500 hover:text-gray-300'}`}
+          onClick={() => setActiveTab('general')}
+          className={`w-full text-left py-4 px-4 rounded-3xl transition-all duration-300 ${activeTab === 'general' ? 'bg-noctis-gold/10 border border-noctis-gold/30 text-noctis-gold' : 'border border-transparent text-noctis-muted hover:bg-white/[0.03]'}`}
         >
-          [BROADCAST]
+          General
         </button>
         <button
-          onClick={() => setActiveTab('signals')}
-          className={`pb-2 tracking-wider uppercase transition-colors ${activeTab === 'signals' ? 'text-[#eab308] border-b border-[#eab308]' : 'text-gray-500 hover:text-gray-300'}`}
+          onClick={() => setActiveTab('advanced')}
+          className={`w-full text-left py-4 px-4 rounded-3xl transition-all duration-300 ${activeTab === 'advanced' ? 'bg-noctis-gold/10 border border-noctis-gold/30 text-noctis-gold' : 'border border-transparent text-noctis-muted hover:bg-white/[0.03]'}`}
         >
-          MY SIGNALS ({mySignals.length})
+          Advanced
         </button>
         <button
           onClick={() => setActiveTab('analytics')}
-          className={`pb-2 tracking-wider uppercase transition-colors ${activeTab === 'analytics' ? 'text-[#eab308] border-b border-[#eab308]' : 'text-gray-500 hover:text-gray-300'}`}
+          className={`w-full text-left py-4 px-4 rounded-3xl transition-all duration-300 ${activeTab === 'analytics' ? 'bg-noctis-gold/10 border border-noctis-gold/30 text-noctis-gold' : 'border border-transparent text-noctis-muted hover:bg-white/[0.03]'}`}
         >
-          [ANALYTICS]
+          Analytics
         </button>
-      </div>
+      </aside>
 
-      {statusMessage && (
-        <div className={`text-[10px] p-3 rounded-xl border font-mono ${isError ? 'text-red-400 bg-red-950/10 border-red-900/20' : 'text-emerald-400 bg-emerald-950/10 border-emerald-900/20'}`}>
-          {statusMessage}
-        </div>
-      )}
+      <section className="space-y-6 bg-noctis-bg border border-white/[0.05] rounded-[32px] p-8 shadow-noctis">
+        {statusMessage && (
+          <div className={`text-[10px] p-4 rounded-3xl border ${isError ? 'text-red-400 bg-red-950/10 border-red-900/20' : 'text-noctis-gold bg-noctis-gold/10 border-noctis-gold/20'}`}>
+            {statusMessage}
+          </div>
+        )}
 
-      {activeTab === 'broadcast' && (
+        {activeTab === 'general' && (
+          <form onSubmit={handleBroadcast} className="space-y-6">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.35em] text-noctis-muted font-mono">Signal Title *</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full bg-noctis-bg border border-white/[0.05] rounded-3xl px-4 py-4 text-sm text-noctis-platinum outline-none transition-colors duration-300 focus:border-noctis-gold"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.35em] text-noctis-muted font-mono">Synopsis / Brief Logline *</label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full min-h-[160px] resize-none bg-noctis-bg border border-white/[0.05] rounded-3xl px-4 py-4 text-sm text-noctis-platinum outline-none transition-colors duration-300 focus:border-noctis-gold"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.35em] text-noctis-muted font-mono">Cover Art URL *</label>
+                <input
+                  type="url"
+                  value={coverUrl}
+                  onChange={(e) => setCoverUrl(e.target.value)}
+                  className="w-full bg-noctis-bg border border-white/[0.05] rounded-3xl px-4 py-4 text-sm text-noctis-platinum outline-none transition-colors duration-300 focus:border-noctis-gold"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.35em] text-noctis-muted font-mono">YouTube Source URL / ID *</label>
+                <input
+                  type="text"
+                  value={youtubeUrl}
+                  onChange={(e) => setYoutubeUrl(e.target.value)}
+                  className="w-full bg-noctis-bg border border-white/[0.05] rounded-3xl px-4 py-4 text-sm text-noctis-platinum outline-none transition-colors duration-300 focus:border-noctis-gold"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 border border-noctis-gold/20 rounded-3xl text-[10px] uppercase tracking-[0.35em] text-noctis-gold font-mono transition-all duration-300 hover:bg-white/[0.02] disabled:opacity-50"
+            >
+              {loading ? 'TRANSMITTING...' : 'TRANSMIT SIGNAL'}
+            </button>
+          </form>
+        )}
+
+        {activeTab === 'advanced' && (
         <form onSubmit={handleBroadcast} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2">
+            <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2">
               <input
                 type="text"
                 value={title}
@@ -405,12 +424,12 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
                 className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-light placeholder-transparent"
                 required
               />
-              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                 Film Adı *
               </label>
             </div>
 
-            <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2">
+            <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2">
               <input
                 type="text"
                 value={description}
@@ -419,14 +438,14 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
                 className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-light placeholder-transparent"
                 required
               />
-              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                 Kısa Özet / Sinopsis *
               </label>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2">
+            <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2">
               <input
                 type="text"
                 value={youtubeUrl}
@@ -435,12 +454,12 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
                 className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-mono placeholder-transparent"
                 required
               />
-              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                 YouTube Link veya ID *
               </label>
             </div>
 
-            <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2">
+            <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2">
               <input
                 type="url"
                 value={coverUrl}
@@ -449,7 +468,7 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
                 className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-light placeholder-transparent"
                 required
               />
-              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+              <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                 Kapak Görseli URL *
               </label>
             </div>
@@ -458,41 +477,15 @@ function CreatorStudio({ session, onSignalBroadcasted }: CreatorStudioProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-transparent border border-[#eab308]/20 hover:border-[#eab308] text-[#eab308] font-mono text-[9px] tracking-widest uppercase rounded-2xl transition-all duration-500 disabled:opacity-50"
+            className="w-full py-3.5 bg-transparent border border-noctis-gold/20 hover:border-noctis-gold text-noctis-gold font-mono text-[9px] tracking-widest uppercase rounded-2xl transition-all duration-500 disabled:opacity-50"
           >
             {loading ? 'YAYINLANALANMAYA BAŞLADI...' : '▶ SİNYALİ YAYINLA'}
           </button>
         </form>
       )}
 
-      {activeTab === 'signals' && (
-        <div className="space-y-4">
-          {mySignals.length === 0 ? (
-            <div className="text-center py-16 border border-dashed border-gray-900 rounded-3xl text-gray-600 text-xs font-mono">
-              Henüz yayınlanmış bir film bulunamadı.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {mySignals.map((signal) => (
-                <div key={signal.id} className="bg-[#121214] border border-[#1f1f23] p-4 rounded-2xl group flex flex-col justify-between">
-                  <div>
-                    <h5 className="text-xs text-gray-200 truncate">{signal.title}</h5>
-                    <p className="text-[10px] text-gray-500 line-clamp-2 mt-1">{signal.description}</p>
-                  </div>
-                  <button
-                    onClick={() => handleDeleteSignal(signal.id)}
-                    className="mt-4 text-[8px] font-mono tracking-widest text-red-400 hover:text-red-500 text-left uppercase"
-                  >
-                    // DEACTIVATE SIGNAL [X]
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
       {activeTab === 'analytics' && <CreatorStats mySignals={mySignals} />}
+        </section>
     </div>
   );
 }
@@ -572,14 +565,14 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
     <div className={`fixed inset-0 z-50 transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={onClose} />
 
-      <div className={`absolute top-0 right-0 h-full w-full max-w-lg md:max-w-xl bg-[#09090b] border-l border-gray-900 p-8 shadow-2xl overflow-y-auto transform transition-transform duration-500 ease-out flex flex-col justify-between ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`absolute inset-0 h-full w-full bg-noctis-bg border-l border-white/[0.05] p-8 shadow-2xl overflow-y-auto transform transition-transform duration-500 ease-out flex flex-col justify-between ${activeMenu === 'studio' ? 'md:max-w-[90vw] lg:max-w-[1100px] mx-auto left-0 right-0' : 'max-w-lg md:max-w-xl right-0'} ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div>
-          <div className="flex justify-between items-center border-b border-gray-900 pb-5 mb-8">
+          <div className="flex justify-between items-center border-b border-white/[0.05] pb-5 mb-8">
             <div>
               <h2 className="text-xl font-extralight tracking-[0.3em] text-[#f4f4f5] uppercase">CONTROL DECK</h2>
-              <p className="text-[8px] font-mono tracking-widest text-[#eab308] uppercase mt-1">NOCTIS SYSTEM INTERFACE</p>
+              <p className="text-[8px] font-mono tracking-widest text-noctis-gold uppercase mt-1">NOCTIS SYSTEM INTERFACE</p>
             </div>
-            <button onClick={onClose} className="text-xs font-mono text-gray-500 hover:text-[#eab308] transition-colors">
+            <button onClick={onClose} className="text-xs font-mono text-noctis-muted hover:text-noctis-gold transition-colors">
               // CLOSE PANEL [X]
             </button>
           </div>
@@ -587,13 +580,13 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
           <div className="flex gap-4 mb-8">
             <button
               onClick={() => setActiveMenu('profile')}
-              className={`flex-1 py-3 border text-[10px] font-mono tracking-wider uppercase rounded-xl transition-all ${activeMenu === 'profile' ? 'bg-[#eab308]/5 border-[#eab308] text-[#eab308]' : 'bg-transparent border-gray-900 text-gray-500'}`}
+              className={`flex-1 py-3 border text-[10px] font-mono tracking-wider uppercase rounded-xl transition-all ${activeMenu === 'profile' ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-gold' : 'bg-transparent border-white/[0.05] text-noctis-muted'}`}
             >
               // KİMLİK AYARLARI
             </button>
             <button
               onClick={() => setActiveMenu('studio')}
-              className={`flex-1 py-3 border text-[10px] font-mono tracking-wider uppercase rounded-xl transition-all ${activeMenu === 'studio' ? 'bg-[#eab308]/5 border-[#eab308] text-[#eab308]' : 'bg-transparent border-gray-900 text-gray-500'}`}
+              className={`flex-1 py-3 border text-[10px] font-mono tracking-wider uppercase rounded-xl transition-all ${activeMenu === 'studio' ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-gold' : 'bg-transparent border-white/[0.05] text-noctis-muted'}`}
             >
               // YAYIN MERKEZİ (STUDIO)
             </button>
@@ -608,7 +601,7 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
               )}
 
               <form onSubmit={handleUpdateAccount} className="space-y-6">
-                <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2">
+                <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2">
                   <input
                     type="text"
                     value={newUsername}
@@ -617,20 +610,20 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
                     className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-light placeholder-transparent"
                     required
                   />
-                  <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+                  <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                     YÖNETMEN İSMİ
                   </label>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">KİMLİK SİNYALİ</label>
+                  <label className="text-[9px] font-mono uppercase tracking-widest text-noctis-muted">KİMLİK SİNYALİ</label>
                   <div className="grid grid-cols-4 gap-3">
                     {Object.entries(AVATAR_MAP).map(([key, emoji]) => (
                       <button
                         key={key}
                         type="button"
                         onClick={() => setSelectedAvatar(key)}
-                        className={`py-4 rounded-2xl border text-xl transition-all ${selectedAvatar === key ? 'bg-[#eab308]/5 border-[#eab308] text-white shadow-lg' : 'bg-transparent border-gray-900 text-gray-400'}`}
+                        className={`py-4 rounded-2xl border text-xl transition-all ${selectedAvatar === key ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-platinum shadow-lg' : 'bg-transparent border-white/[0.05] text-noctis-muted'}`}
                       >
                         {emoji}
                       </button>
@@ -638,7 +631,7 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
                   </div>
                 </div>
 
-                <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors pb-2 pt-4">
+                <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors pb-2 pt-4">
                   <input
                     type="password"
                     value={newPassword}
@@ -646,7 +639,7 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
                     placeholder=" "
                     className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-mono placeholder-transparent"
                   />
-                  <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-amber-500/80 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+                  <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-gold/80 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
                     {hasPasswordBound ? 'ŞİFREYİ GÜNCELLE' : 'HESABA ŞİFRE BAĞLA'}
                   </label>
                 </div>
@@ -654,7 +647,7 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-transparent border border-gray-900 hover:border-gray-700 text-gray-300 font-mono text-[9px] tracking-widest uppercase rounded-2xl transition-all duration-300"
+                  className="w-full py-3.5 bg-transparent border border-white/[0.05] hover:border-gray-700 text-gray-300 font-mono text-[9px] tracking-widest uppercase rounded-2xl transition-all duration-300"
                 >
                   {loading ? 'YÜKLENİYOR...' : 'KAYDET VE GÜNCELLE'}
                 </button>
@@ -667,9 +660,9 @@ function ControlPanel({ session, isOpen, onClose, onRefreshSession, onSignalBroa
           )}
         </div>
 
-        <div className="border-t border-gray-900 pt-6 mt-12 flex justify-between items-center">
+        <div className="border-t border-white/[0.05] pt-6 mt-12 flex justify-between items-center">
           <div className="text-left font-mono">
-            <p className="text-[8px] text-gray-500 uppercase">YETKİLİ FREKANS</p>
+            <p className="text-[8px] text-noctis-muted uppercase">YETKİLİ FREKANS</p>
             <p className="text-[10px] text-gray-300">{session.user.email}</p>
           </div>
           <button
@@ -692,7 +685,6 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
   const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
-  
   // Sol Menü Açık/Kapalı Durumu (Üç Çizgili Hamburger)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
@@ -717,6 +709,7 @@ export default function App() {
     history,
     watchLater,
     likedVideos,
+    isStorageLoading,
     addMovieToHistory,
     buyAiItem
   } = useNoctisStorage(session?.user?.id);
@@ -779,22 +772,22 @@ export default function App() {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
-  const handleBuyItem = (item: StoreItem) => {
-    const success = buyAiItem(item.id, item.price);
-    if (success) {
+  const handleBuyItem = async (item: StoreItem) => {
+    const result = await buyAiItem(item.id, item.price);
+    if (result.success) {
       showToast(`✓ ${item.title} başarıyla lisanslandı.`);
     } else {
-      showToast('❌ Yetersiz N-Credit. Yayında kalarak kredi kazanın.');
+      showToast(`⚠ ${result.message}`);
     }
   };
 
   if (showSplash) {
     return (
-      <div className="fixed inset-0 bg-[#09090b] flex flex-col items-center justify-center z-50 select-none">
+      <div className="fixed inset-0 bg-noctis-bg flex flex-col items-center justify-center z-50 select-none">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-extralight tracking-[0.7em] text-white pl-[0.7em] animate-pulse">NOCTIS</h1>
-          <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#eab308] to-transparent mx-auto"></div>
-          <p className="text-[8px] tracking-[0.4em] text-[#eab308]/60 font-mono uppercase">
+          <h1 className="text-4xl font-extralight tracking-[0.7em] text-noctis-platinum pl-[0.7em] animate-pulse">NOCTIS</h1>
+          <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-noctis-gold to-transparent mx-auto"></div>
+          <p className="text-[8px] tracking-[0.4em] text-noctis-gold/60 font-mono uppercase">
             ESTABLISHING SECURE TRANSMISSION...
           </p>
         </div>
@@ -822,15 +815,15 @@ export default function App() {
   const selectedMovie = movies.find((m) => m.id === selectedMovieId);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] antialiased select-none selection:bg-[#eab308]/20 transition-all duration-500">
+    <div className="min-h-screen bg-noctis-bg text-noctis-platinum antialiased select-none selection:bg-noctis-gold/20 transition-all duration-500">
       
       {/* ÜST BAR (HEADER) */}
-      <header className="p-6 border-b border-gray-900/50 flex justify-between items-center backdrop-blur-xl bg-[#09090b]/60 sticky top-0 z-40">
+      <header className="p-6 border-b border-white/[0.05] flex justify-between items-center backdrop-blur-xl bg-noctis-bg/80 sticky top-0 z-40">
         <div className="flex items-center gap-4">
           {/* Sol Menüyü Açıp Kapatan Lüks Üç Çizgi Butonu */}
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-gray-400 hover:text-[#eab308] transition-colors focus:outline-none"
+            className="text-noctis-muted hover:text-noctis-gold transition-colors focus:outline-none"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
@@ -838,12 +831,8 @@ export default function App() {
           </button>
           
           <h1 
-            className="text-lg font-extralight tracking-[0.6em] pl-[0.6em] cursor-pointer hover:text-[#eab308] transition-all duration-500" 
-            onClick={() => { 
-              setSelectedMovieId(null); 
-              setSelectedProfileId(null); 
-              setActiveTab('explore'); 
-            }}
+            className="text-lg font-extralight tracking-[0.6em] pl-[0.6em] cursor-pointer hover:text-noctis-gold transition-all duration-500" 
+            onClick={() => { setSelectedMovieId(null); setActiveTab('explore'); }}
           >
             NOCTIS
           </h1>
@@ -852,7 +841,7 @@ export default function App() {
         {/* Sağ Kontrol Paneli Tetikleyici */}
         <button 
           onClick={() => setIsControlPanelOpen(true)}
-          className="w-10 h-10 rounded-full bg-[#121214] border border-gray-900 hover:border-[#eab308]/50 flex items-center justify-center text-lg transition-all duration-300 shadow-2xl relative group"
+          className="w-10 h-10 rounded-full bg-noctis-card border border-white/[0.05] hover:border-noctis-gold/50 flex items-center justify-center text-lg transition-all duration-300 shadow-2xl relative group"
         >
           {avatarEmoji}
           <span className="absolute right-0 bottom-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-[#09090b] rounded-full animate-pulse" />
@@ -861,7 +850,7 @@ export default function App() {
 
       {/* MODAL VE TOAST BİLDİRİMLERİ */}
       {toastMessage && (
-        <div className="fixed bottom-8 right-8 z-50 bg-[#121214] border border-gray-900 px-6 py-3 rounded-2xl text-xs font-mono tracking-wider text-[#eab308] animate-fade-in shadow-2xl">
+        <div className="fixed bottom-8 right-8 z-50 bg-noctis-card border border-white/[0.05] px-6 py-3 rounded-2xl text-xs font-mono tracking-wider text-noctis-gold animate-fade-in shadow-2xl">
           {toastMessage}
         </div>
       )}
@@ -882,21 +871,9 @@ export default function App() {
         {isSidebarOpen ? (
           <Sidebar 
             activeTab={activeTab} 
-            setActiveTab={(t) => { 
-              setActiveTab(t as any); 
-              setSelectedMovieId(null); 
-              setSelectedProfileId(null); // Navigasyon kilitlenmesini kökten çözen sıfırlama
-            }} 
-            setSelectedMovieId={(id) => {
-              setSelectedMovieId(id);
-              setSelectedProfileId(null); // Video seçildiğinde açık profili kapatır
-            }}
-            onViewProfile={() => {
-              if (session?.user?.id) {
-                setSelectedProfileId(session.user.id);
-                setSelectedMovieId(null); // Profil açıldığında açık videoyu kapatır
-              }
-            }}
+            setActiveTab={(t) => { setActiveTab(t as any); setSelectedMovieId(null); }} 
+            setSelectedMovieId={setSelectedMovieId}
+            onViewProfile={() => session?.user?.id && setSelectedProfileId(session.user.id)}
           />
         ) : (
           <div className="w-0" />
@@ -913,8 +890,8 @@ export default function App() {
               userId={selectedProfileId} 
               onClose={() => setSelectedProfileId(null)}
               onSelectMovie={(movieId) => {
-                setSelectedProfileId(null); // Profil kapatılır
-                setSelectedMovieId(movieId); // Seçilen video oynatılmaya başlar
+                setSelectedProfileId(null);
+                setSelectedMovieId(movieId);
               }}
               session={session}
             />
@@ -928,8 +905,7 @@ export default function App() {
                 onClose={() => setSelectedMovieId(null)} 
                 session={session}
                 onViewProfile={(directorId) => {
-                  setSelectedMovieId(null); // Profil sayfasına giderken video container temizlenir
-                  setSelectedProfileId(directorId); // Yönetmen profili açılır
+                  setSelectedProfileId(directorId);
                 }}
               />
             </div>
@@ -938,13 +914,13 @@ export default function App() {
                SAYFA: AI STORE (Premium Dijital Mağaza)
                ============================================ */
             <div className="space-y-8 animate-fade-in max-w-6xl mx-auto">
-              <div className="flex justify-between items-end border-b border-gray-900 pb-4">
+              <div className="flex justify-between items-end border-b border-white/[0.05] pb-4">
                 <div>
                   <h2 className="text-2xl font-extralight tracking-widest text-[#f4f4f5] uppercase">AI STORE</h2>
-                  <p className="text-[9px] text-[#eab308] font-mono mt-1 uppercase tracking-wider">// LÜKS PROMPTLAR VE ENTEGRASYON SES SİNYALLERİ</p>
+                  <p className="text-[9px] text-noctis-gold font-mono mt-1 uppercase tracking-wider">// LÜKS PROMPTLAR VE ENTEGRASYON SES SİNYALLERİ</p>
                 </div>
-                <div className="bg-[#121214] border border-gray-900 px-4 py-2 rounded-2xl text-[10px] font-mono text-[#eab308]">
-                  CÜZDAN: {credits} N-CREDITS
+                <div className="bg-noctis-card border border-white/[0.05] px-4 py-2 rounded-2xl text-[10px] font-mono text-noctis-gold">
+                  CÜZDAN: {isStorageLoading ? 'YÜKLENİYOR...' : `${credits} N-CREDITS`}
                 </div>
               </div>
 
@@ -952,34 +928,34 @@ export default function App() {
                 {STORE_ITEMS.map((item) => {
                   const isPurchased = purchasedItems.includes(item.id);
                   return (
-                    <div key={item.id} className="bg-[#121214]/60 border border-gray-900 p-6 rounded-[32px] hover:border-[#eab308]/20 transition-all duration-500 flex flex-col justify-between">
+                    <div key={item.id} className="bg-noctis-card/60 border border-white/[0.05] p-6 rounded-[32px] hover:border-noctis-gold/20 transition-all duration-500 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start mb-4">
-                          <span className="text-[7px] bg-[#eab308]/5 border border-[#eab308]/20 text-[#eab308] px-2 py-1 rounded font-mono uppercase">{item.category}</span>
-                          <span className="text-xs font-mono text-gray-500">★ {item.rating.toFixed(1)}</span>
+                          <span className="text-[7px] bg-noctis-gold/10 border border-noctis-gold/20 text-noctis-gold px-2 py-1 rounded font-mono uppercase">{item.category}</span>
+                          <span className="text-xs font-mono text-noctis-muted">★ {item.rating.toFixed(1)}</span>
                         </div>
-                        <h3 className="text-sm font-light text-gray-100 uppercase tracking-wider">{item.title}</h3>
-                        <p className="text-[11px] text-gray-500 font-mono mt-1">Creator: @{item.creator.toLowerCase()}</p>
-                        <p className="text-xs text-gray-400 font-light mt-3 leading-relaxed">{item.description}</p>
+                        <h3 className="text-sm font-light text-noctis-platinum uppercase tracking-wider">{item.title}</h3>
+                        <p className="text-[11px] text-noctis-muted font-mono mt-1">Creator: @{item.creator.toLowerCase()}</p>
+                        <p className="text-xs text-noctis-muted font-light mt-3 leading-relaxed">{item.description}</p>
                         
-                        <ul className="mt-5 space-y-1.5 border-t border-gray-900/60 pt-4">
+                        <ul className="mt-5 space-y-1.5 border-t border-white/[0.05] pt-4">
                           {item.features.map((f, i) => (
-                            <li key={i} className="text-[9px] text-gray-500 font-mono flex items-center gap-2">
-                              <span className="text-[#eab308]">▪</span> {f}
+                            <li key={i} className="text-[9px] text-noctis-muted font-mono flex items-center gap-2">
+                              <span className="text-noctis-gold">▪</span> {f}
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <div className="mt-8 pt-4 border-t border-gray-900/60 flex items-center justify-between">
+                      <div className="mt-8 pt-4 border-t border-white/[0.05] flex items-center justify-between">
                         <div>
-                          <p className="text-[8px] text-gray-600 font-mono uppercase">LİSANS BEDELİ</p>
-                          <p className="text-base font-light text-white font-mono">{item.price} NC</p>
+                          <p className="text-[8px] text-noctis-muted font-mono uppercase">LİSANS BEDELİ</p>
+                          <p className="text-base font-light text-noctis-platinum font-mono">{item.price} NC</p>
                         </div>
                         <button
                           onClick={() => handleBuyItem(item)}
                           disabled={isPurchased}
-                          className={`px-5 py-2.5 rounded-xl font-mono text-[9px] tracking-wider uppercase transition-all duration-300 ${isPurchased ? 'bg-gray-900 border border-gray-800 text-gray-600 cursor-default' : 'bg-transparent border border-[#eab308]/30 hover:border-[#eab308] text-[#eab308]'}`}
+                          className={`px-5 py-2.5 rounded-xl font-mono text-[9px] tracking-wider uppercase transition-all duration-300 ${isPurchased ? 'bg-noctis-card border border-white/[0.03] text-noctis-muted cursor-default' : 'bg-transparent border border-noctis-gold/30 hover:border-noctis-gold text-noctis-gold'}`}
                         >
                           {isPurchased ? 'LİSANSLANDI' : 'LİSANS AL'}
                         </button>
@@ -994,17 +970,17 @@ export default function App() {
                SAYFA: DISCOVER / ARCHIVE FILM GRIDLERI
                ============================================ */
             <div className="space-y-8 animate-fade-in">
-              <div className="flex items-center justify-between border-b border-gray-900 pb-3">
-                <p className="text-[10px] text-gray-500 font-mono uppercase tracking-[0.3em]">
+              <div className="flex items-center justify-between border-b border-white/[0.05] pb-3">
+                <p className="text-[10px] text-noctis-muted font-mono uppercase tracking-[0.3em]">
                   {activeTab === 'explore' ? "TONIGHT'S TRANSMISSIONS" : `${activeTab.toUpperCase()} ARCHIVE`}
                 </p>
-                <span className="text-[8px] text-[#eab308] font-mono animate-pulse uppercase tracking-widest">// FEED ACTIVE</span>
+                <span className="text-[8px] text-noctis-gold font-mono animate-pulse uppercase tracking-widest">// FEED ACTIVE</span>
               </div>
               
               {displayedMovies.length === 0 ? (
-                <div className="text-center py-24 border border-dashed border-gray-900 rounded-[32px]">
-                  <p className="text-xs text-gray-500 font-mono uppercase tracking-widest">∅ BU ARŞİVDE KAYITLI SİNYAL BULUNAMADI</p>
-                  <p className="text-[9px] text-gray-600 font-mono mt-2 uppercase">İÇERİKLERİ İZLEYEREK VEYA BEĞENEREK ARŞİVİNİZİ GENİŞLETİN</p>
+                <div className="text-center py-24 border border-dashed border-white/[0.05] rounded-[32px]">
+                  <p className="text-xs text-noctis-muted font-mono uppercase tracking-widest">∅ BU ARŞİVDE KAYITLI SİNYAL BULUNAMADI</p>
+                  <p className="text-[9px] text-noctis-muted font-mono mt-2 uppercase">İÇERİKLERİ İZLEYEREK VEYA BEĞENEREK ARŞİVİNİZİ GENİŞLETİN</p>
                 </div>
               ) : (
                 <MovieGrid movies={displayedMovies} onSelect={handleSelectMovie} />

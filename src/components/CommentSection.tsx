@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
 interface CommentSectionProps { videoId: string; session: any }
@@ -61,14 +61,14 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
   };
 
   return (
-    <div className="space-y-6 border-t border-gray-900/60 pt-8">
+    <div className="space-y-6 border-t border-white/[0.05] pt-8">
       <div>
-        <h3 className="text-[10px] text-gray-500 font-mono tracking-[0.2em] uppercase mb-4 font-extralight">TRANSMISSION RESPONSES</h3>
+        <h3 className="text-[10px] text-noctis-muted font-mono tracking-[0.2em] uppercase mb-4 font-extralight">TRANSMISSION RESPONSES</h3>
       </div>
 
       {/* Comment Input */}
       <div className="space-y-2">
-        <div className="relative border-b border-gray-900 focus-within:border-[#eab308] transition-colors duration-300">
+        <div className="relative border-b border-white/[0.05] focus-within:border-noctis-gold transition-colors duration-300">
           <input 
             value={text} 
             onChange={(e) => setText(e.target.value)}
@@ -76,7 +76,7 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
             placeholder=" "
             className="peer w-full bg-transparent text-gray-200 text-sm outline-none pt-4 pb-1 font-light placeholder-transparent"
           />
-          <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-gray-500 pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#eab308]">
+          <label className="absolute left-0 top-4 text-[9px] uppercase tracking-widest text-noctis-muted pointer-events-none transition-all duration-300 font-mono peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-noctis-gold">
             Add a Response
           </label>
         </div>
@@ -84,7 +84,7 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
           <button 
             onClick={post}
             disabled={!text.trim() || posting}
-            className="px-4 py-2 bg-transparent border border-[#eab308]/30 hover:border-[#eab308] text-[#eab308] font-mono text-[9px] tracking-widest uppercase rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-transparent border border-noctis-gold/30 hover:border-noctis-gold text-noctis-gold font-mono text-[9px] tracking-widest uppercase rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {posting ? 'POSTING...' : '▶ POST RESPONSE'}
           </button>
@@ -94,16 +94,16 @@ export default function CommentSection({ videoId, session }: CommentSectionProps
       {/* Comments List */}
       <div className="space-y-3">
         {comments.length === 0 ? (
-          <div className="text-center py-8 text-gray-600 text-[9px] font-mono uppercase tracking-wider">
+          <div className="text-center py-8 text-noctis-muted text-[9px] font-mono uppercase tracking-wider">
             No responses yet. Be the first to transmit.
           </div>
         ) : (
           comments.map((c, idx) => (
-            <div key={idx} className="bg-[#121214]/30 border border-gray-950 p-4 rounded-2xl backdrop-blur-sm hover:border-gray-900 transition-colors duration-300">
+            <div key={idx} className="bg-noctis-card/30 border border-white/[0.05] p-4 rounded-2xl backdrop-blur-sm hover:border-white/[0.05] transition-colors duration-300">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
-                  <div className="text-xs text-gray-100 font-light leading-relaxed">{c.content}</div>
-                  <div className="text-[8px] text-gray-500 font-mono uppercase tracking-wider mt-2">{getRelativeTime(c.created_at)}</div>
+                  <div className="text-xs text-noctis-platinum font-light leading-relaxed">{c.content}</div>
+                  <div className="text-[8px] text-noctis-muted font-mono uppercase tracking-wider mt-2">{getRelativeTime(c.created_at)}</div>
                 </div>
               </div>
             </div>

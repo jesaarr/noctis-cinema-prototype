@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useNoctisStorage } from '../hooks/useNoctisStorage';
 
 interface VideoMetaProps { 
@@ -61,10 +61,10 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
   };
 
   return (
-    <div className="space-y-8 border-b border-gray-950 pb-8 animate-fade-in">
+    <div className="space-y-8 border-b border-white/[0.05] pb-8 animate-fade-in">
       
       {/* Interaction Button Bar */}
-      <div className="flex items-center justify-between border-b border-gray-900/50 pb-5">
+      <div className="flex items-center justify-between border-b border-white/[0.05] pb-5">
         <div className="flex gap-4">
           
           {/* Watch Later Toggle */}
@@ -72,8 +72,8 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
             onClick={() => toggleWatchLater(movie.id)}
             className={`px-4 py-2.5 border text-[9px] font-mono uppercase rounded-xl transition-all duration-300 ${
               isWatchLater 
-                ? 'bg-[#eab308]/5 border-[#eab308] text-[#eab308]' 
-                : 'border-gray-900 text-gray-500 hover:text-white hover:border-gray-700'
+                ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-gold' 
+                : 'border-white/[0.05] text-noctis-muted hover:text-noctis-platinum hover:border-gray-700'
             }`}
           >
             {isWatchLater ? '[ SCHEDULED ]' : 'WATCH LATER'}
@@ -81,7 +81,7 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
           
           {/* Follow/Owner Toggle */}
           {isMe ? (
-            <div className="px-4 py-2.5 bg-gray-950 border border-gray-900 text-gray-600 rounded-xl text-[9px] font-mono uppercase tracking-wider cursor-default select-none">
+            <div className="px-4 py-2.5 bg-noctis-card border border-white/[0.05] text-noctis-muted rounded-xl text-[9px] font-mono uppercase tracking-wider cursor-default select-none">
               OWNER CHANNEL
             </div>
           ) : (
@@ -90,8 +90,8 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
                 onClick={handleFollow}
                 className={`px-4 py-2.5 border text-[9px] font-mono uppercase rounded-xl transition-all duration-300 ${
                   isFollowingDirector 
-                    ? 'bg-[#eab308]/5 border-[#eab308] text-[#eab308] font-bold' 
-                    : 'border-gray-900 text-gray-400 hover:text-white hover:border-gray-700'
+                    ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-gold font-bold' 
+                    : 'border-white/[0.05] text-noctis-muted hover:text-noctis-platinum hover:border-gray-700'
                 }`}
               >
                 {isFollowingDirector ? '[ FOLLOWING ]' : 'FOLLOW CREATOR'}
@@ -101,7 +101,7 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
 
         </div>
 
-        <span className="text-[8px] font-mono text-gray-600 uppercase tracking-widest">
+        <span className="text-[8px] font-mono text-noctis-muted uppercase tracking-widest">
           SIGNAL KEY: {movie.id.substring(0, 8)}
         </span>
       </div>
@@ -111,52 +111,52 @@ export default function VideoMeta({ movie, session, onViewProfile }: VideoMetaPr
         
         {/* Sol Alan: Başlık & Özet */}
         <div className="md:col-span-2 space-y-4">
-          <div className="inline-block bg-[#eab308]/5 border border-[#eab308]/20 text-[#eab308] px-3 py-1.5 rounded-full font-mono text-[8px] uppercase tracking-widest">
+          <div className="inline-block bg-noctis-gold/10 border border-noctis-gold/20 text-noctis-gold px-3 py-1.5 rounded-full font-mono text-[8px] uppercase tracking-widest">
             ACTIVE SYSTEM TRANSMISSION
           </div>
-          <h2 className="text-3xl font-extralight tracking-wide text-white">{movie.title}</h2>
-          <p className="text-xs text-gray-400 font-light leading-relaxed">{movie.description}</p>
+          <h2 className="text-3xl font-extralight tracking-wide text-noctis-platinum">{movie.title}</h2>
+          <p className="text-xs text-noctis-muted font-light leading-relaxed">{movie.description}</p>
         </div>
 
         {/* Sağ Alan: Lüks İstatistik Kartı */}
-        <div className="bg-[#121214]/60 border border-gray-900 p-6 rounded-[32px] h-fit space-y-4 font-mono text-[9px] tracking-widest uppercase">
+        <div className="bg-noctis-card/60 border border-white/[0.05] p-6 rounded-[32px] h-fit space-y-4 font-mono text-[9px] tracking-widest uppercase">
           
           <div>
-            <span className="text-gray-500">TRANSMITTER</span>
+            <span className="text-noctis-muted">TRANSMITTER</span>
             <div className="block mt-1">
               {movie.director_id ? (
                 <button 
                   onClick={handleViewProfile}
-                  className="text-white text-xs font-light hover:text-[#eab308] transition-colors cursor-pointer text-left"
+                  className="text-noctis-platinum text-xs font-light hover:text-noctis-gold transition-colors cursor-pointer text-left"
                 >
                   @{movie.director.toLowerCase()}
                 </button>
               ) : (
-                <span className="text-gray-400 text-xs font-light">@anonymous</span>
+                <span className="text-noctis-muted text-xs font-light">@anonymous</span>
               )}
             </div>
           </div>
           
-          <div className="border-t border-gray-900/60 pt-4">
-            <span className="text-gray-500">ECHO STRENGTH</span>
-            <p className="text-[#eab308] text-xs mt-1 font-light">
+          <div className="border-t border-white/[0.05] pt-4">
+            <span className="text-noctis-muted">ECHO STRENGTH</span>
+            <p className="text-noctis-gold text-xs mt-1 font-light">
               {(movie.views ?? 0).toLocaleString('tr-TR')} VIEWS
             </p>
           </div>
           
-          <div className="border-t border-gray-900/60 pt-4">
-            <span className="text-gray-500">TIMESTAMP</span>
+          <div className="border-t border-white/[0.05] pt-4">
+            <span className="text-noctis-muted">TIMESTAMP</span>
             <p className="text-gray-300 text-[10px] mt-1 font-light">{relativeTime}</p>
           </div>
           
           {movie.ai_tools && movie.ai_tools.length > 0 && (
-            <div className="border-t border-gray-900/60 pt-4">
-              <span className="text-gray-500">GENERATION ENGINES</span>
+            <div className="border-t border-white/[0.05] pt-4">
+              <span className="text-noctis-muted">GENERATION ENGINES</span>
               <div className="flex flex-wrap gap-1.5 mt-2.5">
                 {movie.ai_tools.map((tool: string, i: number) => (
                   <span 
                     key={i} 
-                    className="bg-black/40 border border-gray-900 text-[#eab308] px-2.5 py-1 rounded-lg text-[7px] tracking-wide"
+                    className="bg-black/40 border border-white/[0.05] text-noctis-gold px-2.5 py-1 rounded-lg text-[7px] tracking-wide"
                   >
                     {tool.toUpperCase()}
                   </span>

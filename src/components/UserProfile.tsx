@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNoctisStorage } from '../hooks/useNoctisStorage';
 import MovieGrid from './MovieGrid';
@@ -31,7 +31,7 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
   const [loading, setLoading] = useState(true);
   
   // NoctisStorage entegrasyonu
-  const { isFollowing, toggleFollow, history } = useNoctisStorage();
+  const { isFollowing, toggleFollow } = useNoctisStorage();
   const [following, setFollowing] = useState(false);
 
   // Görüntülenen profil, oturumu açmış olan kullanıcının kendi profili mi?
@@ -111,7 +111,7 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24 text-gray-500 text-xs font-mono tracking-[0.3em] animate-pulse">
+      <div className="flex items-center justify-center py-24 text-noctis-muted text-xs font-mono tracking-[0.3em] animate-pulse">
         // RETRIEVING TRANSMITTER METADATA...
       </div>
     );
@@ -123,14 +123,14 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
     <div className="space-y-10 max-w-5xl mx-auto animate-fade-in pb-16">
       
       {/* ÜST GEZİNTİ BARBARI */}
-      <div className="flex items-center justify-between border-b border-gray-950 pb-6">
+      <div className="flex items-center justify-between border-b border-white/[0.05] pb-6">
         <button
           onClick={onClose}
-          className="text-[9px] font-mono uppercase tracking-widest text-gray-500 hover:text-[#eab308] transition-all duration-300 flex items-center gap-2"
+          className="text-[9px] font-mono uppercase tracking-widest text-noctis-muted hover:text-noctis-gold transition-all duration-300 flex items-center gap-2"
         >
           <span>←</span> // RETURN TO FEED
         </button>
-        <span className="text-[8px] font-mono text-gray-600 uppercase tracking-widest">
+        <span className="text-[8px] font-mono text-noctis-muted uppercase tracking-widest">
           NODE ID: {userId.substring(0, 8)}...
         </span>
       </div>
@@ -139,8 +139,8 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         
         {/* Sol ve Orta Sütun: İsim, Avatar ve Bio */}
-        <div className="md:col-span-2 flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left bg-[#121214]/30 border border-gray-900/40 p-8 rounded-[32px]">
-          <div className="w-20 h-20 rounded-full bg-[#121214] border border-gray-900 flex items-center justify-center text-3xl shadow-xl flex-shrink-0">
+        <div className="md:col-span-2 flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left bg-noctis-card/30 border border-white/[0.05]/40 p-8 rounded-[32px]">
+          <div className="w-20 h-20 rounded-full bg-noctis-card border border-white/[0.05] flex items-center justify-center text-3xl shadow-xl flex-shrink-0">
             {avatarEmoji}
           </div>
           <div className="space-y-3">
@@ -149,35 +149,35 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
                 @{userInfo?.username}
               </h1>
               {isMe && (
-                <span className="text-[7px] bg-[#eab308]/10 border border-[#eab308]/30 text-[#eab308] font-mono px-2 py-0.5 rounded-full uppercase tracking-widest w-fit mx-auto sm:mx-0">
+                <span className="text-[7px] bg-noctis-gold/10 border border-noctis-gold/30 text-noctis-gold font-mono px-2 py-0.5 rounded-full uppercase tracking-widest w-fit mx-auto sm:mx-0">
                   OWNER
                 </span>
               )}
             </div>
-            <p className="text-xs text-gray-400 font-light leading-relaxed max-w-md">
+            <p className="text-xs text-noctis-muted font-light leading-relaxed max-w-md">
               {userInfo?.bio || 'Bu yönetmen henüz evrene bir frekans özeti bırakmadı.'}
             </p>
           </div>
         </div>
 
         {/* Sağ Sütun: Sistem Analitiği ve Aksiyon Butonu */}
-        <div className="bg-[#121214] border border-[#1f1f23] p-6 rounded-[32px] space-y-4 font-mono text-[9px] tracking-widest uppercase">
+        <div className="bg-noctis-card border border-white/[0.05] p-6 rounded-[32px] space-y-4 font-mono text-[9px] tracking-widest uppercase">
           <div>
-            <span className="text-gray-500">CORE STATUS</span>
-            <p className="text-[#eab308] text-[11px] mt-0.5 font-light tracking-wider">
+            <span className="text-noctis-muted">CORE STATUS</span>
+            <p className="text-noctis-gold text-[11px] mt-0.5 font-light tracking-wider">
               {isMe ? '✓ MAIN ADMIN SYNCED' : '• EXTERNAL TRANSMITTER'}
             </p>
           </div>
           
-          <div className="border-t border-gray-900/60 pt-4">
-            <span className="text-gray-500">YAYIN GÜCÜ</span>
+          <div className="border-t border-white/[0.05] pt-4">
+            <span className="text-noctis-muted">YAYIN GÜCÜ</span>
             <p className="text-gray-300 text-[10px] mt-0.5">{userMovies.length} ACTIVE SIGNALS</p>
           </div>
           
-          <div className="border-t border-gray-900/60 pt-4">
+          <div className="border-t border-white/[0.05] pt-4">
             {isMe ? (
               // Eğer benim hesabımsa takip etme seçeneği yerine şık ve inaktif bir dashboard göstergesi koyuyoruz
-              <div className="w-full py-3 bg-gray-950 border border-gray-900 text-gray-600 rounded-xl text-center text-[8px] tracking-widest">
+              <div className="w-full py-3 bg-noctis-card border border-white/[0.05] text-noctis-muted rounded-xl text-center text-[8px] tracking-widest">
                 // CANNOT FOLLOW YOURSELF
               </div>
             ) : (
@@ -186,8 +186,8 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
                 onClick={handleFollow}
                 className={`w-full py-3 border text-[9px] font-mono uppercase rounded-xl transition-all duration-500 font-bold ${
                   following
-                    ? 'bg-[#eab308]/5 border-[#eab308] text-[#eab308]'
-                    : 'border-gray-900 text-gray-400 hover:text-white hover:border-gray-700'
+                    ? 'bg-noctis-gold/10 border-noctis-gold text-noctis-gold'
+                    : 'border-white/[0.05] text-noctis-muted hover:text-noctis-platinum hover:border-gray-700'
                 }`}
               >
                 {following ? '[ ✓ FOLLOWING CREATOR ]' : '[ + FOLLOW CREATOR ]'}
@@ -199,16 +199,16 @@ export default function UserProfile({ userId, onClose, onSelectMovie, session }:
       </div>
 
       {/* YÖNETMENİN SİNYALLERİ (FİLM GRID) */}
-      <div className="space-y-6 border-t border-gray-900/50 pt-10">
+      <div className="space-y-6 border-t border-white/[0.05] pt-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-light tracking-[0.25em] text-gray-400 uppercase">
+          <h2 className="text-sm font-light tracking-[0.25em] text-noctis-muted uppercase">
             {isMe ? 'MY BROADCAST ARCHIVE' : 'TRANSMISSION LOGS'}
           </h2>
-          <span className="text-[8px] text-gray-600 font-mono">COUNT: {userMovies.length}</span>
+          <span className="text-[8px] text-noctis-muted font-mono">COUNT: {userMovies.length}</span>
         </div>
 
         {userMovies.length === 0 ? (
-          <div className="text-center py-20 border border-dashed border-gray-900 rounded-[32px] text-gray-600 text-[10px] font-mono uppercase tracking-widest">
+          <div className="text-center py-20 border border-dashed border-white/[0.05] rounded-[32px] text-noctis-muted text-[10px] font-mono uppercase tracking-widest">
             ∅ SİSTEME YÜKLENMİŞ HİÇBİR SİNYAL BULUNAMADI.
           </div>
         ) : (

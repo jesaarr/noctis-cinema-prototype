@@ -42,7 +42,7 @@ export default function ProfileDropdown({ session, onOpenSettings, onOpenCreator
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className={`w-10 h-10 rounded-full border flex items-center justify-center text-sm font-semibold transition-all duration-200 select-none
           ${isMenuOpen 
-            ? 'border-[#eab308] bg-[#191919] text-[#eab308]' 
+            ? 'border-noctis-gold bg-[#191919] text-noctis-gold' 
             : 'border-[#2b2b2b] bg-[#0f0f0f] text-[#f4f4f5] hover:border-[#444444] hover:bg-[#161616]'
           }`}
       >
@@ -58,7 +58,7 @@ export default function ProfileDropdown({ session, onOpenSettings, onOpenCreator
             <p className="text-xs font-medium text-gray-300 truncate">
               {username}
             </p>
-            <p className="text-[11px] text-gray-500 truncate mt-0.5">
+            <p className="text-[11px] text-noctis-muted truncate mt-0.5">
               {session.user.email}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function ProfileDropdown({ session, onOpenSettings, onOpenCreator
 
             <button
               onClick={() => { onOpenCreatorDeck(); setIsMenuOpen(false); }}
-              className="w-full text-left px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all border-t border-white/5 mt-1"
+              className="w-full text-left px-3 py-2 text-sm text-noctis-gold/80 hover:bg-noctis-gold/10 rounded-lg transition-all border-t border-white/5 mt-1"
             >
               Transmission Deck
             </button>
